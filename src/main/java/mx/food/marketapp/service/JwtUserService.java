@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import mx.food.marketapp.exception.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.repository.UserRepository;
@@ -31,9 +32,7 @@ public class JwtUserService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
 		UserModel user = userRepository.findByUsername(username);
-
 		if (user!=null) {
 			return new User(user.getUsername(), user.getPassword(),
 					new ArrayList<>());
@@ -42,7 +41,6 @@ public class JwtUserService implements UserDetailsService{
 		}
 	}
 
-	
 	// @Transactional // Crear una transaccion
     public UserModel register(JwtRequest request) {
         UserModel user = userRepository.findByUsername(request.getUsername());
@@ -59,16 +57,13 @@ public class JwtUserService implements UserDetailsService{
 
         return userSaved;
     }
-
+	
+	@Transactional 
 	public String authToken(String username)  {
 		UserModel user = userRepository.findByUsername(username);
-
 		if (user!=null) {
-
 			UserDetails userDetails = new User(user.getUsername(), user.getPassword(),	new ArrayList<>());
 			String token = jwtTokenUtil.generateToken(userDetails);
-
-			// user = userRepository.save(user); 
 			
 			return token;
 		} else {
@@ -76,6 +71,10 @@ public class JwtUserService implements UserDetailsService{
 		}
 	}
 
+	@Transactional 
+    public UserModel self(String username) {
+        return userRepository.findByUsername(username);
+    }
 
 	
 

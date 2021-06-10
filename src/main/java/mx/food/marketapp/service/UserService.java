@@ -34,9 +34,6 @@ public class UserService {
         user.setId(id);
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
-
-        // String token = UUID.randomUUID().toString();
-        // user.setToken(token);
         
         user = userRepository.save(user); 
         return user;

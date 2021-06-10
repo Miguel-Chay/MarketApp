@@ -7,13 +7,13 @@ import javax.validation.constraints.Pattern;
 public class UserRequest {
 
     @NotNull
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 45)
     @NotEmpty
     private String username;
 
    
     @NotNull
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 255)
     @NotEmpty
     @Pattern(regexp="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="La contraseña debe mayor de 8 caracteres y contener letras, numeros y al menos 1 caracter especial.")      
     private String password;

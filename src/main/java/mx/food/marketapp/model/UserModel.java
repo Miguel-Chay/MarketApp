@@ -20,15 +20,17 @@ public class UserModel{
     @Column(name = "username")
     private String username;
     
+    @Column
+    @JsonIgnore
+    private String password;
+    
     @Column(name = "email")
     private String email;
 
     @Column(name = "type")
     private String type;
 
-    @Column
-    @JsonIgnore
-    private String password;
+    
  
     public UserModel() {
     }
