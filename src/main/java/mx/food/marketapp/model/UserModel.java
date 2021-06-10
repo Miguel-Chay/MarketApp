@@ -23,8 +23,8 @@ public class UserModel{
     @Column(name = "email")
     private String email;
 
-    // @Column(name = "type")
-    // private String type;
+    @Column(name = "type")
+    private String type;
 
     @Column
     @JsonIgnore
@@ -70,8 +70,13 @@ public class UserModel{
         return password;
     }
 
-
-
+    public void setType(String type) {
+        this.type = type;
+    }
+ 
+    public String getType() {
+        return type;
+    }
 
 
 
