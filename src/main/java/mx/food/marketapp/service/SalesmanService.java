@@ -17,6 +17,7 @@ import mx.food.marketapp.model.SalesmanModel;
 import mx.food.marketapp.model.SexModel;
 import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.model.request.RegisterSalesmanRequest;
+import mx.food.marketapp.model.request.SalesmanRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import mx.food.marketapp.repository.SalesmanRepository;
@@ -56,22 +57,15 @@ public class SalesmanService {
         newSalesman.setLastname(request.getLastname());
         newSalesman.setCellphone(request.getCellphone());
         newSalesman.setAddress(request.getAddress());
-
         try {          
-
-            // CityModel city= CityModel.valueOf(request.getCity());
             newSalesman.setCity(CityModel.valueOf(request.getCity()));
-
         } catch (IllegalArgumentException e) {                   
-            // System.out.println("======ERROR======"+e);
             throw new BadRequestException("Valor invalido para City" + ": " + request.getCity());
         }
-
         try {          
             newSalesman.setSex(SexModel.valueOf(request.getSex()));
         } catch (IllegalArgumentException e) {                   
-            throw new BadRequestException(
-            "Valor invalido para Sex" + ": " + request.getCity());
+            throw new BadRequestException("Valor invalido para Sex" + ": " + request.getSex());
         }
  
         // newSalesman.setUser(newuser); // Relacionar 2 entidades
@@ -83,18 +77,30 @@ public class SalesmanService {
 
 
     @Transactional // Crear una transaccion
-    public SalesmanModel actualizar(Integer id,RegisterSalesmanRequest request) {
+    public SalesmanModel actualizar(Integer id,SalesmanRequest request) {
 
         SalesmanModel salesman = salesmanRepository.findById(id).orElseThrow(()-> new NotFoundException());
-
-        // salesman.setId(id);
-        // salesman.setSalesmanname(request.getSalesmanname());
-        // salesman.setPassword(passwordEncoder.encode(request.getPassword()));
-        // salesman.setEmail(request.getEmail());
-        // salesman.setType(request.getType());
-        // salesman = salesmanRepository.save(salesman); 
-        return salesman;
+         
+    
+        salesman.setFirstname(request.getFirstname());
+        salesman.setLastname(request.getLastname());
+        salesman.setCellphone(request.getCellphone());
+        salesman.setAddress(request.getAddress());
+        try {          
+            salesman.setCity(CityModel.valueOf(request.getCity()));
+        } catch (IllegalArgumentException e) {                   
+            throw new BadRequestException("Valor invalido para City" + ": " + request.getCity());
+        }
+        try {          
+            salesman.setSex(SexModel.valueOf(request.getSex()));
+        } catch (IllegalArgumentException e) {                   
+            throw new BadRequestException("Valor invalido para Sex" + ": " + request.getSex());
+        }
+ 
+        // newSalesman.setUser(newuser); // Relacionar 2 entidades
+        salesman = salesmanRepository.save(salesman); 
         
+        return salesman;
     }
 
     @Transactional(readOnly = true)

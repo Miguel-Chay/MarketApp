@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import mx.food.marketapp.model.SalesmanModel;
 import mx.food.marketapp.model.request.RegisterSalesmanRequest;
+import mx.food.marketapp.model.request.SalesmanRequest;
 import mx.food.marketapp.service.SalesmanService;
 
 @RestController
@@ -33,7 +34,7 @@ public class SalesmanRest {
     }
 
     @PutMapping("/salesmans/{id}")
-    public ResponseEntity<SalesmanModel> actualizarSalesman(@PathVariable Integer id, @Valid @RequestBody RegisterSalesmanRequest request) {
+    public ResponseEntity<SalesmanModel> actualizarSalesman(@PathVariable Integer id, @Valid @RequestBody SalesmanRequest request) {
         SalesmanModel u = salesmanService.actualizar(id,request);
         return ResponseEntity.status(HttpStatus.CREATED).body(u);
     }

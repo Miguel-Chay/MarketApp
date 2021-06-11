@@ -1,5 +1,7 @@
 package mx.food.marketapp.model;
 
+// import java.beans.VetoableChangeListener;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,8 +13,8 @@ import javax.persistence.Enumerated;
 // import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "salesman")
-public class SalesmanModel{
+@Table(name = "deliveryman")
+public class DeliverymanModel{
     
     @Id
     @Column(name = "user_id")
@@ -40,11 +42,15 @@ public class SalesmanModel{
     @Column
     @Enumerated(EnumType.STRING)
     private CityModel city;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private VehicleModel vehicle;
     
     @Column(name = "address")
     private String address;
     
-    public SalesmanModel() {
+    public DeliverymanModel() {
     }
 
     public Integer getUser_id() {
@@ -101,6 +107,13 @@ public class SalesmanModel{
  
     public String getAddress() {
         return address;
+    }
+    public void setVehicle(VehicleModel vehicle) {
+        this.vehicle = vehicle;
+    }
+ 
+    public VehicleModel getVehicle() {
+        return vehicle;
     }
     
 }
