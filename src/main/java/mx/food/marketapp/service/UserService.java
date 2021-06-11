@@ -2,9 +2,7 @@ package mx.food.marketapp.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-//import javax.transaction.Transactional;
 import java.util.LinkedList;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Service;
 import mx.food.marketapp.exception.NotFoundException;
 import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.model.request.UserRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import mx.food.marketapp.repository.UserRepository;
 
@@ -22,9 +21,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    //@Autowired
-    //private AlumnoRepository alumnoRepository;
-// PUT, GET, GET by ID, DELETE para entidad User
+	@Autowired
+    private PasswordEncoder passwordEncoder;
+ 
 
     @Transactional // Crear una transaccion
     public UserModel actualizar(Integer id,UserRequest request) {
@@ -33,8 +32,9 @@ public class UserService {
 
         user.setId(id);
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
-        
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEmail(request.getEmail());
+        user.setType(request.getType());
         user = userRepository.save(user); 
         return user;
         
