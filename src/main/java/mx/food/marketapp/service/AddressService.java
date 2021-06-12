@@ -24,35 +24,22 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private CustomerRepository customerRepository;
 
     @Transactional // Crear una transaccion
     public AddressModel crear(AddressRequest request) {
-
         AddressModel address = new AddressModel();
-        System.out.println("================1==============");
         CustomerModel c = customerRepository.findById(request.getCustomerId()).orElseThrow(()-> new NotFoundException("No existe el cliente con id:"+ request.getCustomerId()));               
-        
         address.setCustomer(c);
         address.setCrossing(request.getCrossing());
         address.setStreet(request.getStreet());
         address.setSuburb(request.getSuburb());
-        System.out.println("================2==============");
-
         try {          
             address.setCity(CityModel.valueOf(request.getCity()));
-            System.out.println("================3==============");
-
         } catch (IllegalArgumentException e) {                   
             throw new BadRequestException("Valor invalido para City" + ": " + request.getCity());
         }
-        System.out.println("================4==============");
-
         address = addressRepository.save(address); 
-        System.out.println("================5==============");
-
         return address;
     }
 
