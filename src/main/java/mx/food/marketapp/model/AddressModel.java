@@ -21,7 +21,7 @@ public class AddressModel{
     private Integer id;
 
     @Column(name = "customer_id")
-    private Integer customer_id;
+    private Integer customerId;
 
     @Column(name = "street")
     private String street;
@@ -46,10 +46,10 @@ public class AddressModel{
         this.id= id;
     }
     public Integer getCustomerId() {
-        return customer_id;
+        return customerId;
     }
-    public void setCustomerId(Integer customer_id) {
-        this.customer_id= customer_id;
+    public void setCustomerId(Integer customerId) {
+        this.customerId= customerId;
     }
     public String getStreet() {
         return street;
