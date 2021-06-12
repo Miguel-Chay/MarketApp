@@ -9,8 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 // import javax.persistence.ManyToOne;
-// import javax.persistence.OneToOne;
-// import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "address")
@@ -20,8 +20,8 @@ public class AddressModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "customer_id")
-    private Integer customerId;
+    // @Column(name = "customer_id")
+    // private Integer customerId;
 
     @Column(name = "street")
     private String street;
@@ -35,7 +35,19 @@ public class AddressModel{
     @Column(name = "city")
     @Enumerated(EnumType.STRING)
     private CityModel city;
-     
+    
+    @OneToOne()
+    @JoinColumn(name = "customer_id" )
+    private CustomerModel customer;
+
+    public CustomerModel getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerModel customer) {
+        this.customer = customer;
+    }
+
     public AddressModel() {
     }
 
@@ -45,12 +57,12 @@ public class AddressModel{
     public void setId(Integer id) {
         this.id= id;
     }
-    public Integer getCustomerId() {
-        return customerId;
-    }
-    public void setCustomerId(Integer customerId) {
-        this.customerId= customerId;
-    }
+    // public Integer getCustomerId() {
+    //     return customerId;
+    // }
+    // public void setCustomerId(Integer customerId) {
+    //     this.customerId= customerId;
+    // }
     public String getStreet() {
         return street;
     }

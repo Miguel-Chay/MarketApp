@@ -5,7 +5,7 @@ public class AddressRequest {
 
     @NotNull
     private String street;
-    // @NotNull
+    @NotNull
     private Integer customerId;
     @NotNull
     private String crossing;

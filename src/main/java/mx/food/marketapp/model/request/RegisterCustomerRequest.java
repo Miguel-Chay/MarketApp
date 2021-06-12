@@ -3,8 +3,7 @@ package mx.food.marketapp.model.request;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import mx.food.marketapp.model.PaymentModel;
+ 
 
 // import mx.food.marketapp.model.VehicleModel;
 
@@ -35,9 +34,7 @@ public class RegisterCustomerRequest {
     @NotNull
     private String sex;
     @NotNull
-    private String address_id;
-    @NotNull
-    private PaymentModel payment;
+    private String payment;
 
     public RegisterCustomerRequest() {
 
@@ -105,10 +102,10 @@ public class RegisterCustomerRequest {
         return sex;
     }
 
-    public PaymentModel getPayment() {
+    public String getPayment() {
         return payment;
     }
-    public void setPayment(PaymentModel payment) {
+    public void setPayment(String payment) {
         this.payment = payment;
     }
 
