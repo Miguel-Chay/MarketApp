@@ -5,8 +5,8 @@ public class AddressRequest {
 
     @NotNull
     private String street;
-    @NotNull
-    private Integer customer_id;
+    // @NotNull
+    private Integer customerId;
     @NotNull
     private String crossing;
     @NotNull
@@ -18,12 +18,12 @@ public class AddressRequest {
 
     }
     
-    public void setCustomerId(Integer customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
  
     public Integer getCustomerId() {
-        return customer_id;
+        return customerId;
     }
 
     public void setStreet(String street) {

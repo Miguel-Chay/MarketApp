@@ -26,7 +26,6 @@ public class AddressService {
 
     @Transactional // Crear una transaccion
     public AddressModel crear(AddressRequest request) {
-
         AddressModel address = new AddressModel();
         userRepository.findById(request.getCustomerId()).orElseThrow(()-> new NotFoundException("No existe el cliente con id:"+ request.getCustomerId()));               
         address.setCustomerId(request.getCustomerId());
