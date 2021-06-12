@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-// import javax.persistence.ManyToOne;
-// import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.OneToOne;
 // import javax.persistence.JoinColumn;
 
 @Entity
@@ -21,7 +21,9 @@ public class DeliverymanModel{
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer user_id;
     
-
+    @OneToOne
+    @PrimaryKeyJoinColumn(name="user_id", referencedColumnName="user_id")
+    private UserModel user;
     // @OneToOne
     // @JoinColumn(name = "id") // alumno.id_user
     // private UserModel user;
@@ -60,12 +62,12 @@ public class DeliverymanModel{
         this.user_id= user_id;
     }
  
-    // public void setUser(UserModel user) {
-    //     this.user = user;
-    // }
-    // public UserModel getUser() {
-    //     return this.user ;
-    // }
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+    public UserModel getUser() {
+        return this.user ;
+    }
     public String getFirstname() {
         return firstname;
     }

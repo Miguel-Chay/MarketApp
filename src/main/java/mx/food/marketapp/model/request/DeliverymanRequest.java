@@ -2,7 +2,7 @@ package mx.food.marketapp.model.request;
 // import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 // import javax.validation.constraints.Size;
-import mx.food.marketapp.model.VehicleModel;
+// import mx.food.marketapp.model.VehicleModel;
 // import javax.validation.constraints.Pattern;
 public class DeliverymanRequest {
  
