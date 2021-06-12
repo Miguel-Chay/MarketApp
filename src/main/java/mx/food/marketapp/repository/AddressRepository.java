@@ -8,7 +8,7 @@ import mx.food.marketapp.model.AddressModel;
 @Repository
 public interface AddressRepository extends JpaRepository<AddressModel, Integer> {
 
-    public AddressModel findByCustomerId(Integer customerid);
+    // public AddressModel findByCustomerId(Integer customerid);
         // public Salesman findBySalesmanContaining(String nombre); // LIKE %nombre%
 
 }
