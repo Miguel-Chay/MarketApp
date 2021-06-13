@@ -1,83 +1,83 @@
-// package mx.food.marketapp.model;
+package mx.food.marketapp.model;
 
 
-// import javax.persistence.*;
+import javax.persistence.*;
 
-// @Entity
-// @Table(name = "product")
-// public class ProductModel {
+@Entity
+@Table(name = "product")
+public class ProductModel {
 
-//   @Id
-//   @GeneratedValue(strategy = GenerationType.IDENTITY)
-//   private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    // @OneToMany
+    // @ManyToMany
+    @OneToOne
+    @JoinColumn(name = "commerce_id")
+    private CommerceModel commerce;
+        
+    // @ManyToMany
+    @Column(name = "name")
+    private String name;
 
-//   @OneToMany
-//   @JoinColumn(name = "commerce_id")
-//   private CommerceModel commerce;
-  
+    @Column(name = "description")
+    private String description;
 
-//   @ManyToMany
-//   @Column(name = "name")
-//   private String name;
+    @Column(name = "price")
+    private double price;
 
-//   @Column(name = "description")
-//   private String description;
+    @Column(name = "stock")
+    private int stock;
 
-//   @Column(name = "price")
-//   private double price;
+    public Integer getId() {
+        return id;
+    }
 
-//   @Column(name = "stock")
-//   private int stock;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-//   public Integer getId() {
-//     return id;
-//   }
+    public CommerceModel getCommerce() {
+        return commerce;
+    }
 
-//   public void setId(Integer id) {
-//     this.id = id;
-//   }
+    public void setCommerce(CommerceModel commerce) {
+        this.commerce = commerce;
+    }
 
-//   public CommerceModel getCommerce() {
-//     return commerce;
-//   }
+    public String getName() {
+        return name;
+    }
 
-//   public void setCommerce(CommerceModel commerce) {
-//     this.commerce = commerce;
-//   }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-//   public String getName() {
-//     return name;
-//   }
+    public String getDescription() {
+        return description;
+    }
 
-//   public void setName(String name) {
-//     this.name = name;
-//   }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-//   public String getDescription() {
-//     return description;
-//   }
+    public double getPrice() {
+        return price;
+    }
 
-//   public void setDescription(String description) {
-//     this.description = description;
-//   }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-//   public double getPrice() {
-//     return price;
-//   }
+    public int getStock() {
+        return stock;
+    }
 
-//   public void setPrice(double price) {
-//     this.price = price;
-//   }
-
-//   public int getStock() {
-//     return stock;
-//   }
-
-//   public void setStock(int stock) {
-//     this.stock = stock;
-//   }
-
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+         
   
    
-// }
+}

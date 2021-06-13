@@ -15,7 +15,7 @@ import mx.food.marketapp.model.CustomerModel;
 import mx.food.marketapp.model.request.AddressRequest;
 
 import mx.food.marketapp.repository.AddressRepository;
-import mx.food.marketapp.repository.UserRepository;
+// import mx.food.marketapp.repository.UserRepository;
 import mx.food.marketapp.repository.CustomerRepository;
 
 @Service
