@@ -2,5 +2,9 @@ package mx.food.marketapp.model;
 
 
 public enum OrderStatusModel {
-  TERMINADO,  
+  ESPERA,
+  ACEPTADO,
+  PREPARANDO,
+  ENVIADO,
+  ENTREGADO,  
 }

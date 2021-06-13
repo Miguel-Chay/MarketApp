@@ -29,7 +29,10 @@ public class ProductModel {
 
     @Column(name = "stock")
     private int stock;
-
+    
+    public ProductModel() {
+    }
+    
     public Integer getId() {
         return id;
     }

@@ -1,37 +1,105 @@
-// package mx.food.marketapp.model;
+package mx.food.marketapp.model;
 
-// import javax.persistence.*;
-// @Entity
-// @Table(name = "order")
-// public class OrderModel {
+import javax.persistence.*;
+@Entity
+@Table(name = "order")
+public class OrderModel {
 
-//   @Id
-//   @GeneratedValue(strategy = GenerationType.IDENTITY)
-//   private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
+
+  @OneToOne
+  @JoinColumn(name = "delivery_man_id")
+  private DeliverymanModel derliverymanId;
+
+  @OneToOne
+  @JoinColumn(name = "customer_id")
+  private  CustomerModel customerId;
+
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
+  private OrderStatusModel status;
 
 //   @OneToMany
-//   @JoinColumn(name = "delivery_man_id")
-//   private DeliverymanModel derliveryman;
+  @Column(name = "payment_type")
+  @Enumerated(EnumType.STRING)
+  private  PaymentModel paymentType;
 
-//   @OneToMany
-//   @JoinColumn(name = "customer_id")
-//   private  CustomerModel customer;
+  @Column(name = "order_date")
+  private String orderDate;
 
-//   @Column(name = "status")
-//   @Enumerated(EnumType.STRING)
-//   private OrderStatusModel status;
+  @Column(name = "delivered_date")
+  private String deliveredDate;
 
-//   @OneToMany
-//   @JoinColumn(name = "payment_type")
-//   @Enumerated(EnumType.STRING)
-//   private  PaymentModel paymentType;
+  @Column(name = "total")
+  private double total;
 
-//   @Column(name = "order_date")
-//   private String orderDate;
+public Integer getId() {
+    return id;
+}
 
-//   @Column(name = "delivered_date")
-//   private String deliveredDate;
+public void setId(Integer id) {
+    this.id = id;
+}
 
-//   @Column(name = "total")
-//   private double total;
-// }
+public DeliverymanModel getDerliverymanId() {
+    return derliverymanId;
+}
+
+public void setDerliverymanId(DeliverymanModel derliverymanId) {
+    this.derliverymanId = derliverymanId;
+}
+
+public CustomerModel getCustomerId() {
+    return customerId;
+}
+
+public void setCustomerId(CustomerModel customerId) {
+    this.customerId = customerId;
+}
+
+public OrderStatusModel getStatus() {
+    return status;
+}
+
+public void setStatus(OrderStatusModel status) {
+    this.status = status;
+}
+
+public PaymentModel getPaymentType() {
+    return paymentType;
+}
+
+public void setPaymentType(PaymentModel paymentType) {
+    this.paymentType = paymentType;
+}
+
+public String getOrderDate() {
+    return orderDate;
+}
+
+public void setOrderDate(String orderDate) {
+    this.orderDate = orderDate;
+}
+
+public String getDeliveredDate() {
+    return deliveredDate;
+}
+
+public void setDeliveredDate(String deliveredDate) {
+    this.deliveredDate = deliveredDate;
+}
+
+public double getTotal() {
+    return total;
+}
+
+public void setTotal(double total) {
+    this.total = total;
+}
+
+
+
+  
+}
