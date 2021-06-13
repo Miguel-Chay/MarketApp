@@ -1,5 +1,7 @@
 package mx.food.marketapp.model;
 
+import java.sql.Date;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "order")
@@ -27,10 +29,10 @@ public class OrderModel {
   private  PaymentModel paymentType;
 
   @Column(name = "order_date")
-  private String orderDate;
+  private Date orderDate;
 
   @Column(name = "delivered_date")
-  private String deliveredDate;
+  private Date deliveredDate;
 
   @Column(name = "total")
   private double total;
@@ -75,19 +77,19 @@ public void setPaymentType(PaymentModel paymentType) {
     this.paymentType = paymentType;
 }
 
-public String getOrderDate() {
+public Date getOrderDate() {
     return orderDate;
 }
 
-public void setOrderDate(String orderDate) {
+public void setOrderDate(Date orderDate) {
     this.orderDate = orderDate;
 }
 
-public String getDeliveredDate() {
+public Date getDeliveredDate() {
     return deliveredDate;
 }
 
-public void setDeliveredDate(String deliveredDate) {
+public void setDeliveredDate(Date deliveredDate) {
     this.deliveredDate = deliveredDate;
 }
 
