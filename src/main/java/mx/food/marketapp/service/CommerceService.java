@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
 import mx.food.marketapp.exception.BadRequestException;
 import mx.food.marketapp.exception.NotFoundException;
 import mx.food.marketapp.model.CityModel;
@@ -43,4 +47,53 @@ public class CommerceService {
     commerce = commerceRepository.save(commerce);
     return commerce;
   }
+
+  @Transactional
+  public CommerceModel update(Integer id, CommerceRequest request) {
+    CommerceModel commerce = commerceRepository.findById(id).orElseThrow(()-> new NotFoundException());
+    SalesmanModel salesman = salesmanRepository.findById(request.getSalesmanId()).orElseThrow(()-> new NotFoundException());
+
+    commerce.setSalesman(salesman);
+    commerce.setCommercialName(request.getCommercialName());
+    commerce.setRfc(request.getRfc());
+    commerce.setDescription(request.getDescription());
+
+    try {          
+      commerce.setCity(CityModel.valueOf(request.getCity()));
+    } catch (IllegalArgumentException e) {                   
+        throw new BadRequestException("Valor invalido para City" + ": " + request.getCity());
+    }
+
+    commerce.setAddress(request.getAddress());
+    commerce.setLogo(request.getLogo());
+    commerce.setPhone(request.getPhone());
+    commerce = commerceRepository.save(commerce);
+    return commerce;
+  }
+
+  @Transactional(readOnly = true)
+  public List<CommerceModel> getCommerces() {
+    List<CommerceModel> commerce = new LinkedList<>();
+    commerceRepository.findAll().iterator().forEachRemaining(commerce::add);
+    return commerce;
+  }
+
+  @Transactional(readOnly = true)
+  public CommerceModel getById(Integer id) {
+
+    Optional<CommerceModel> commerceOpt = commerceRepository.findById(id);
+    if (commerceOpt.isPresent()) {
+      return commerceOpt.get();
+    }
+    throw new NotFoundException();
+  }
+
+  @Transactional()
+  public void delete(Integer id) {
+      try {
+          commerceRepository.deleteById(id);                        
+      } catch (Exception e) {}
+      
+  }
+
 }
