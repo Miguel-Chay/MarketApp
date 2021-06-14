@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.*;
 @Entity
-@Table(name = "order")
+@Table(name = "car")
 public class OrderModel {
 
   @Id
@@ -12,8 +12,8 @@ public class OrderModel {
   private Integer id;
 
   @OneToOne
-  @JoinColumn(name = "delivery_man_id")
-  private DeliverymanModel derliverymanId;
+  @JoinColumn(name = "deliveryman_id")
+  private DeliverymanModel deliveryman;
 
   @OneToOne
   @JoinColumn(name = "customer_id")
@@ -46,11 +46,11 @@ public void setId(Integer id) {
 }
 
 public DeliverymanModel getDerliverymanId() {
-    return derliverymanId;
+    return deliveryman;
 }
 
 public void setDerliverymanId(DeliverymanModel derliverymanId) {
-    this.derliverymanId = derliverymanId;
+    this.deliveryman = derliverymanId;
 }
 
 public CustomerModel getCustomerId() {
