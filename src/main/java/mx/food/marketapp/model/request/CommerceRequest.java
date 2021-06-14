@@ -16,7 +16,8 @@ public class CommerceRequest {
 
   @NotNull
   private String rfc;
-
+  
+  @NotNull
   @Size(min = 0, max = 255)
   private String description;
 
@@ -31,7 +32,8 @@ public class CommerceRequest {
   @Size(min = 0, max = 255)
   @NotEmpty
   private String address;
-
+  
+  @NotNull
   @Size(min = 0, max = 255)
   private String logo;
 

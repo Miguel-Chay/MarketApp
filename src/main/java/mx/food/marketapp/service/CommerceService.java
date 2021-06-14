@@ -28,7 +28,7 @@ public class CommerceService {
 
   @Transactional
   public CommerceModel create(CommerceRequest request) {
-    SalesmanModel salesman = salesmanRepository.findById(request.getSalesmanId()).orElseThrow(()-> new NotFoundException());
+    SalesmanModel salesman = salesmanRepository.findById(request.getSalesmanId()).orElseThrow(()-> new NotFoundException("No se pudo encontrar al vendedor con id: "+request.getSalesmanId()));
     CommerceModel commerce = new CommerceModel();
     commerce.setSalesman(salesman);
     commerce.setCommercialName(request.getCommercialName());

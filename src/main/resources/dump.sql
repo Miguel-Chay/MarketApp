@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `marketapp`.`product` (
 -- -----------------------------------------------------
 -- Table `marketapp`.`order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `marketapp`.`order` (
+CREATE TABLE IF NOT EXISTS `marketapp`.`shopping_cart` (
   `id` INT NOT NULL auto_increment,
   `deliveryman_id` INT NULL,
   `customer_id` INT NOT NULL,
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `marketapp`.`order_detail` (
   `finished` TINYINT NOT NULL,
   PRIMARY KEY (`order_id`, `product_id`),
     FOREIGN KEY (`order_id`)
-    REFERENCES `marketapp`.`order` (`id`),
+    REFERENCES `marketapp`.`shopping_cart` (`id`),
     FOREIGN KEY (`product_id`)
     REFERENCES `marketapp`.`product` (`id`));
 

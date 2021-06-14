@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import mx.food.marketapp.exception.*;
-import org.springframework.stereotype.Service;
+// import org.springframework.stereotype.Service;
 import mx.food.marketapp.model.OrderDetailKeyModel;
 import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.OrderModel;
@@ -61,19 +61,10 @@ public class OrderDetailService {
     public OrderDetailModel actualizar(Integer orderId,Integer productId, OrderDetailRequest request){
 
         OrderDetailModel orderDetail = getOrderDetail(orderId, productId);
-        // OrderDetailKeyModel odKey = new OrderDetailKeyModel(); 
         
-        
-
-        // OrderModel order = orderRepository.findById(request.getOrderId()).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+request.getOrderId()));
         ProductModel product = productRepository.findById(request.getProductId()).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
 
-        // odKey.setOrderId(request.getOrderId());
-        // odKey.setProductId(request.getProductId());
         
-        // orderDetail.setId(odKey);
-        // orderDetail.setOrder(order);
-        // orderDetail.setProduct(product);
         orderDetail.setAmount(request.getAmount());
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
@@ -87,30 +78,24 @@ public class OrderDetailService {
     public OrderDetailModel getOrderDetail(Integer orderId, Integer productId){
 
         OrderDetailKeyModel odKey = new OrderDetailKeyModel();
-
-        // alumnoRepository.findById(idalumno).orElseThrow(() -> new NotFoundException("El alumno no se encuentra."));
-
-        // profesorRepository.findById(idprofesor).orElseThrow(() -> new NotFoundException("El profesor no se encuentra."));
-        OrderModel order = orderRepository.findById(orderId).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+orderId));
-        ProductModel product = productRepository.findById(productId).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+productId));
-
+        OrderModel order = orderRepository.findById(orderId).orElseThrow(()-> new NotFoundException("El detalle de la orden no se encuentra. " ));
+        ProductModel product = productRepository.findById(productId).orElseThrow(()-> new NotFoundException("El detalle de la orden no se encuentra. " ));
         odKey.setOrderId(order);
         odKey.setProductId(product);
-        // tutoriaLlave.setIdAlumno(idalumno);
-        // tutoriaLlave.setIdProfesor(idprofesor);
-
         return orderDetailRepository.findById(odKey).orElseThrow(() -> new NotFoundException("El detalle de la orden no se encuentra."));
     }
 
     public List<OrderDetailModel> getOrderDetails(){
-        System.out.println("============== 1 ===============");
         List<OrderDetailModel> oD = new LinkedList<>();
-        System.out.println("============== 2 ===============");
         orderDetailRepository.findAll().iterator().forEachRemaining(oD::add);
-        System.out.println("============== 3 ===============");
         return oD;
     }
 
+    public void deleteOrderDetails(Integer orderId, Integer productId){
+        OrderDetailModel oD= this.getOrderDetail(orderId, productId);
+
+        orderDetailRepository.deleteById(oD.getId());
+    }
 
 
 

@@ -12,8 +12,8 @@ public class OrderDetailRequest {
     @NotNull
     private Integer amount;
 
-    @NotNull
-    private Double subtotal;
+    // @NotNull
+    // private Double subtotal;
 
     @NotNull
     private boolean finished;
@@ -42,13 +42,13 @@ public class OrderDetailRequest {
         this.amount = amount;
     }
 
-    public Double getSubtotal() {
-        return subtotal;
-    }
+    // public Double getSubtotal() {
+    //     return subtotal;
+    // }
 
-    public void setSubtotal(Double subtotal) {
-        this.subtotal = subtotal;
-    }
+    // public void setSubtotal(Double subtotal) {
+    //     this.subtotal = subtotal;
+    // }
 
     public boolean isFinished() {
         return finished;

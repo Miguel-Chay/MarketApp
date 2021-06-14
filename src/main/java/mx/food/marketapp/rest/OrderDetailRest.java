@@ -2,9 +2,11 @@ package mx.food.marketapp.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +16,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.web.bind.annotation.RestController;
 import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.request.OrderDetailRequest;
 import mx.food.marketapp.service.OrderDetailService;
@@ -47,16 +49,16 @@ public class OrderDetailRest {
         return ResponseEntity.created(new URI("/orderDetails/"+oD.getId())).body(oD);
     }
 
-    // @PutMapping("/tutorias/{idalumno}/{idprofesor}")
-    // public ResponseEntity<Tutoria> putTutorias(@PathVariable Integer idalumno, @PathVariable Integer idprofesor, @RequestBody TutoriaRequest request)
-    //     throws URISyntaxException{
-    //         Tutoria tutoria = tutoriaService.editarTutoria(idalumno,idprofesor,request);
-    //         return ResponseEntity.ok().body(tutoria);
-    // }
+    @PutMapping("/orderDetails/{orderId}/{productId}")
+    public ResponseEntity<OrderDetailModel> putOrderDetail(@PathVariable Integer orderId, @PathVariable Integer productId, @RequestBody OrderDetailRequest request)
+        throws URISyntaxException{
+            OrderDetailModel oD = orderDetailService.actualizar(orderId,productId,request);
+            return ResponseEntity.ok().body(oD);
+    }
 
-    // @DeleteMapping("/tutorias/{idalumno}/{idprofesor}")
-    // public ResponseEntity<Void> eliminarTutoria(@PathVariable Integer idalumno, @PathVariable Integer idprofesor){
-    //     tutoriaService.borrarTutoria(idalumno,idprofesor);
-    //     return ResponseEntity.noContent().build();
-    // }
+    @DeleteMapping("/orderDetails/{orderId}/{productId}")
+    public ResponseEntity<Void> eliminarTutoria(@PathVariable Integer orderId, @PathVariable Integer productId){
+        orderDetailService.deleteOrderDetails(orderId,productId);
+        return ResponseEntity.noContent().build();
+    }
 }
