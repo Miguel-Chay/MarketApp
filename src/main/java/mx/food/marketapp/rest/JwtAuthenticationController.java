@@ -25,6 +25,7 @@ import mx.food.marketapp.service.*;
 import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.model.request.JwtRequest;
 import mx.food.marketapp.model.request.JwtResponse;
+import mx.food.marketapp.model.request.UserRequest;
 
 @RestController
 @CrossOrigin
@@ -40,7 +41,7 @@ public class JwtAuthenticationController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<UserModel> postRegister(@RequestBody @Valid JwtRequest request) throws Exception {
+    public ResponseEntity<UserModel> postRegister(@RequestBody @Valid UserRequest request) throws Exception {
         UserModel user = userDetailsService.register(request);
         return ResponseEntity.created(new URI("/users/" + user.getId())).body(user);
     }

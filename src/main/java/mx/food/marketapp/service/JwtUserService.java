@@ -15,6 +15,7 @@ import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.repository.UserRepository;
 import mx.food.marketapp.config.JwtTokenUtil;
 import mx.food.marketapp.model.request.JwtRequest;
+import mx.food.marketapp.model.request.UserRequest;
 
 @Service
 public class JwtUserService implements UserDetailsService{
@@ -40,7 +41,7 @@ public class JwtUserService implements UserDetailsService{
 	}
 
 	// @Transactional // Crear una transaccion
-    public UserModel register(JwtRequest request) {
+    public UserModel register(UserRequest request) {
         UserModel user = userRepository.findByUsername(request.getUsername());
         if (user!=null){
             throw new BadRequestException("El valor del campo username no esta disponible");
@@ -48,7 +49,7 @@ public class JwtUserService implements UserDetailsService{
         UserModel userCreate = new UserModel();
         userCreate.setUsername(request.getUsername());
         userCreate.setPassword(passwordEncoder.encode(request.getPassword()));
-
+				userCreate.setEmail(request.getEmail());
         // UserDetails userDetails = new User(userCreate.getUsername(), userCreate.getPassword(),	new ArrayList<>());
         // String token = jwtTokenUtil.generateToken(userDetails);
         UserModel userSaved = userRepository.save(userCreate); 

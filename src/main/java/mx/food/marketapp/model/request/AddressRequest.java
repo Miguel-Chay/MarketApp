@@ -10,7 +10,7 @@ public class AddressRequest {
     @NotNull
     private String crossing;
     @NotNull
-    private String susburb;
+    private String suburb;
     @NotNull
     private String city;
     
@@ -40,12 +40,12 @@ public class AddressRequest {
     public String getCrossing() {
         return crossing;
     }
-    public void setSuburb(String susburb) {
-        this.susburb = susburb;
+    public void setSuburb(String suburb) {
+        this.suburb = suburb;
     }
  
     public String getSuburb() {
-        return susburb;
+        return suburb;
     }
 
     public void setCity(String city) {
