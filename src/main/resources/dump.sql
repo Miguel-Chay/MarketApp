@@ -17,29 +17,27 @@ CREATE TABLE IF NOT EXISTS `marketapp`.`user` (
 -- Table `marketapp`.`customer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `marketapp`.`customer` (
-  `user_id` INT NOT NULL,
+  `user_id` INT NOT NULL auto_increment,
   `firstname` VARCHAR(255) NOT NULL,
   `lastname` VARCHAR(255) NOT NULL,
   `cellphone` VARCHAR(45) NOT NULL,
   `sex` VARCHAR(50) NOT NULL,
   `payment_type` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`user_id`),
-    FOREIGN KEY (`user_id`)
-    REFERENCES `marketapp`.`user` (`id`));
+	FOREIGN KEY (`user_id`) REFERENCES `marketapp`.`user` (`id`));
 
 -- -----------------------------------------------------
 -- Table `marketapp`.`address`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `marketapp`.`address` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL auto_increment,
   `customer_id` INT NOT NULL,
   `street` VARCHAR(255) NOT NULL,
   `crossing` VARCHAR(255) NOT NULL,
   `suburb` VARCHAR(255) NOT NULL,
   `city` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-	FOREIGN KEY (`customer_id`)
-    REFERENCES `marketapp`.`customer` (`user_id`));
+	FOREIGN KEY (`customer_id`) REFERENCES `marketapp`.`customer` (`user_id`));
 
 
 -- -----------------------------------------------------
@@ -78,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `marketapp`.`salesman` (
 -- Table `marketapp`.`commerce`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `marketapp`.`commerce` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL auto_increment,
   `salesman_id` INT NOT NULL,
   `commercial_name` VARCHAR(255) NOT NULL,
   `rfc` VARCHAR(255) NOT NULL,
@@ -88,15 +86,14 @@ CREATE TABLE IF NOT EXISTS `marketapp`.`commerce` (
   `address` VARCHAR(255) NOT NULL,
   `logo` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-    FOREIGN KEY (`salesman_id`)
-    REFERENCES `marketapp`.`salesman` (`user_id`));
+    FOREIGN KEY (`salesman_id`) REFERENCES `marketapp`.`salesman` (`user_id`));
 
 
 -- -----------------------------------------------------
 -- Table `marketapp`.`product`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `marketapp`.`product` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL auto_increment,
   `commerce_id` INT NOT NULL,
   `name` VARCHAR(255) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
@@ -104,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `marketapp`.`product` (
   `stock` DOUBLE NOT NULL,
   PRIMARY KEY (`id`),
     FOREIGN KEY (`commerce_id`)
-    REFERENCES `marketapp`.`commerce` (`salesman_id`)
+    REFERENCES `marketapp`.`commerce` (`id`)
    );
 
 
@@ -113,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `marketapp`.`product` (
 -- Table `marketapp`.`order`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `marketapp`.`order` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL auto_increment,
   `deliveryman_id` INT NULL,
   `customer_id` INT NOT NULL,
   `status` VARCHAR(50) NOT NULL,

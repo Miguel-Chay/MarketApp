@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import mx.food.marketapp.exception.*;
-
+import org.springframework.stereotype.Service;
 import mx.food.marketapp.model.OrderDetailKeyModel;
 import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.OrderModel;
@@ -18,6 +18,7 @@ import mx.food.marketapp.repository.OrderDetailRepository;
 import mx.food.marketapp.repository.OrderRepository;
 import mx.food.marketapp.repository.ProductRepository;
 
+@Service
 public class OrderDetailService {
     
 
@@ -44,8 +45,8 @@ public class OrderDetailService {
 
         
         orderDetail.setId(odKey);
-        orderDetail.setOrder(order);
-        orderDetail.setProduct(product);
+        // orderDetail.setOrder(order);
+        // orderDetail.setProduct(product);
         orderDetail.setAmount(request.getAmount());
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
