@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 import mx.food.marketapp.exception.*;
@@ -40,8 +42,8 @@ public class OrderDetailService {
         order = orderRepository.findById(request.getOrderId()).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+request.getOrderId()));
         product = productRepository.findById(request.getProductId()).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
 
-        odKey.setOrderId(request.getOrderId());
-        odKey.setProductId(request.getProductId());
+        odKey.setOrderId(order);
+        odKey.setProductId(product);
 
         
         orderDetail.setId(odKey);
@@ -89,11 +91,11 @@ public class OrderDetailService {
         // alumnoRepository.findById(idalumno).orElseThrow(() -> new NotFoundException("El alumno no se encuentra."));
 
         // profesorRepository.findById(idprofesor).orElseThrow(() -> new NotFoundException("El profesor no se encuentra."));
-        // OrderModel order = orderRepository.findById(orderId).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+orderId));
-        // ProductModel product = productRepository.findById(productId).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+productId));
+        OrderModel order = orderRepository.findById(orderId).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+orderId));
+        ProductModel product = productRepository.findById(productId).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+productId));
 
-        odKey.setOrderId(orderId);
-        odKey.setProductId(productId);
+        odKey.setOrderId(order);
+        odKey.setProductId(product);
         // tutoriaLlave.setIdAlumno(idalumno);
         // tutoriaLlave.setIdProfesor(idprofesor);
 
