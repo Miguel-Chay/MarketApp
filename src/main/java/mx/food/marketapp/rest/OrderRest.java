@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+// import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.OrderModel;
 import mx.food.marketapp.model.request.OrderRequest;
 import mx.food.marketapp.service.OrderService;
@@ -55,6 +57,11 @@ public class OrderRest {
         return ResponseEntity.noContent().build();
     }
    
-    
+    @PutMapping("orders/{id}/total")
+    public ResponseEntity<Void> ala(@PathVariable Integer id) {
+        orderService.actualizarTotal(id);
+        return ResponseEntity.noContent().build();
+
+    }
 
 }

@@ -27,7 +27,7 @@ public class SalesmanRest {
     private SalesmanService salesmanService;
 
 
-    @PostMapping("/salesmans")
+    @PostMapping("/salesmans/register")
     public ResponseEntity<SalesmanModel> registrarSalesman(@Valid @RequestBody RegisterSalesmanRequest request) {
         SalesmanModel u = salesmanService.registrar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(u);

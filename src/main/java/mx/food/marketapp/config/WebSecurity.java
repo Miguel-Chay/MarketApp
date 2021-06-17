@@ -48,7 +48,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .httpBasic().disable() // Authorization: Basic base64(usuario:contrasena) x.x
             .authorizeRequests()
-                .antMatchers("/login", "/register","/api/salesmans/signin","/api/deliverymans/signin","/api/customers/signin").permitAll()
+                .antMatchers("/login","/api/salesmans/register","/api/deliverymans/register","/api/customers/register").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)

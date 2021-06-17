@@ -27,7 +27,7 @@ public class CustomerRest {
     private CustomerService customerService;
 
 
-    @PostMapping("/customers")
+    @PostMapping("/customers/register")
     public ResponseEntity<CustomerModel> registrarCustomer(@Valid @RequestBody RegisterCustomerRequest request) {
         CustomerModel u = customerService.registrar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(u);
