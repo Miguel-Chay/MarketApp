@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.repository.UserRepository;
 import mx.food.marketapp.config.JwtTokenUtil;
-import mx.food.marketapp.model.request.JwtRequest;
+// import mx.food.marketapp.model.request.JwtRequest;
 import mx.food.marketapp.model.request.UserRequest;
 
 @Service

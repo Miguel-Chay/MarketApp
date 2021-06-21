@@ -27,30 +27,30 @@ public class DeliverymanRest {
     private DeliverymanService deliverymanService;
 
 
-    @PostMapping("/deliverymans/register")
+    @PostMapping("/deliverymen/register")
     public ResponseEntity<DeliverymanModel> registrarDeliveryman(@Valid @RequestBody RegisterDeliverymanRequest request) {
         DeliverymanModel u = deliverymanService.registrar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(u);
     }
 
-    @PutMapping("/deliverymans/{id}")
+    @PutMapping("/deliverymen/{id}")
     public ResponseEntity<DeliverymanModel> actualizarDeliveryman(@PathVariable Integer id, @Valid @RequestBody DeliverymanRequest request) {
         DeliverymanModel u = deliverymanService.actualizar(id,request);
         return ResponseEntity.status(HttpStatus.CREATED).body(u);
     }
 
-    @GetMapping("/deliverymans")
+    @GetMapping("/deliverymen")
     public ResponseEntity<List<DeliverymanModel>> obtenerDeliveryman() {
         List<DeliverymanModel> deliverymans = deliverymanService.getDeliverymans();
         return ResponseEntity.ok(deliverymans);
     }
 
-    @GetMapping("/deliverymans/{id}")
+    @GetMapping("/deliverymen/{id}")
     public ResponseEntity<DeliverymanModel> getDeliveryman(@PathVariable Integer id) {
         DeliverymanModel u = deliverymanService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(u);
     }
-    @DeleteMapping("/deliverymans/{id}")
+    @DeleteMapping("/deliverymen/{id}")
     public ResponseEntity<Void> deleteDeliveryman(@PathVariable Integer id) {
         deliverymanService.delete(id);
         return ResponseEntity.noContent().build();

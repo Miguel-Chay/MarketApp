@@ -11,9 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.net.URI;
 
-import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +23,6 @@ import mx.food.marketapp.service.*;
 import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.model.request.JwtRequest;
 import mx.food.marketapp.model.request.JwtResponse;
-import mx.food.marketapp.model.request.UserRequest;
 
 @RestController
 @CrossOrigin
@@ -40,11 +37,11 @@ public class JwtAuthenticationController {
 	
 
 
-    @PostMapping("/register")
-    public ResponseEntity<UserModel> postRegister(@RequestBody @Valid UserRequest request) throws Exception {
-        UserModel user = userDetailsService.register(request);
-        return ResponseEntity.created(new URI("/users/" + user.getId())).body(user);
-    }
+    // @PostMapping("/register")
+    // public ResponseEntity<UserModel> postRegister(@RequestBody @Valid UserRequest request) throws Exception {
+    //     UserModel user = userDetailsService.register(request);
+    //     return ResponseEntity.created(new URI("/users/" + user.getId())).body(user);
+    // }
 
 
 	@PostMapping("/login")
