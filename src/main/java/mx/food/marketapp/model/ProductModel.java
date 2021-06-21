@@ -3,6 +3,8 @@ package mx.food.marketapp.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "product")
 public class ProductModel {
@@ -15,6 +17,7 @@ public class ProductModel {
     // @ManyToMany
     @OneToOne
     @JoinColumn(name = "commerce_id")
+    @JsonBackReference
     private CommerceModel commerce;
         
     // @ManyToMany

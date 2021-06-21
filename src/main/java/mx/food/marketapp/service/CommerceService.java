@@ -12,9 +12,11 @@ import mx.food.marketapp.exception.BadRequestException;
 import mx.food.marketapp.exception.NotFoundException;
 import mx.food.marketapp.model.CityModel;
 import mx.food.marketapp.model.CommerceModel;
+import mx.food.marketapp.model.ProductModel;
 import mx.food.marketapp.model.SalesmanModel;
 import mx.food.marketapp.model.request.CommerceRequest;
 import mx.food.marketapp.repository.CommerceRepository;
+import mx.food.marketapp.repository.ProductRepository;
 import mx.food.marketapp.repository.SalesmanRepository;
 
 @Service
@@ -26,6 +28,8 @@ public class CommerceService {
   @Autowired
   private SalesmanRepository salesmanRepository;
 
+  @Autowired
+  private ProductRepository productRepository;
   @Transactional
   public CommerceModel create(CommerceRequest request) {
     SalesmanModel salesman = salesmanRepository.findById(request.getSalesmanId()).orElseThrow(()-> new NotFoundException("No se pudo encontrar al vendedor con id: "+request.getSalesmanId()));
@@ -94,6 +98,15 @@ public class CommerceService {
           commerceRepository.deleteById(id);                        
       } catch (Exception e) {}
       
+  }
+
+  @Transactional()
+  public List<ProductModel> getProductByCommerce(Integer idCommerce) {
+    CommerceModel commerce = commerceRepository.findById(idCommerce).orElseThrow(()-> new NotFoundException());;
+    List<ProductModel> products = new LinkedList<>();
+    productRepository.findByCommerce(commerce).iterator().forEachRemaining(products::add);
+    System.out.println(products);
+    return products;
   }
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.food.marketapp.model.CommerceModel;
+import mx.food.marketapp.model.ProductModel;
 import mx.food.marketapp.model.request.CommerceRequest;
 import mx.food.marketapp.service.CommerceService;
 
@@ -46,6 +47,13 @@ public class CommerceRest {
   public ResponseEntity<List<CommerceModel>> obtenerSalesman() {
       List<CommerceModel> commerce = commerceService.getCommerces();
       return ResponseEntity.ok(commerce);
+  }
+
+  // regresa los productos de un determinado comercio 
+  @GetMapping("/commerces/{id}/products")
+  public ResponseEntity<List<ProductModel>> getCommerceProduct(@PathVariable Integer id) {
+      List<ProductModel> products = commerceService.getProductByCommerce(id);
+      return ResponseEntity.ok(products);
   }
 
   @GetMapping("/commerces/{id}")
