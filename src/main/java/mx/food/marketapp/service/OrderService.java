@@ -9,20 +9,17 @@ import java.util.LinkedList;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.instrument.classloading.tomcat.TomcatLoadTimeWeaver;
 import org.springframework.stereotype.Service;
 import mx.food.marketapp.exception.*;
 import mx.food.marketapp.model.OrderModel;
 import mx.food.marketapp.model.OrderStatusModel;
 import mx.food.marketapp.model.PaymentModel;
-// import mx.food.marketapp.model.CityModel;
 import mx.food.marketapp.model.CustomerModel;
 import mx.food.marketapp.model.DeliverymanModel;
 import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.request.OrderRequest;
 
 import mx.food.marketapp.repository.OrderRepository;
-// import mx.food.marketapp.repository.UserRepository;
 import mx.food.marketapp.repository.CustomerRepository;
 import mx.food.marketapp.repository.DeliverymanRepository;
 import mx.food.marketapp.repository.OrderDetailRepository;
@@ -140,7 +137,7 @@ public class OrderService {
         
     }
     
-
+    @Transactional()
     public Double calculateTotal(Integer id){
         this.getById(id);
         List<OrderDetailModel> oD = new LinkedList<>();
@@ -152,15 +149,22 @@ public class OrderService {
         return total;
     }
 
-    public void actualizarTotal(Integer id){
-        // System.out.println("=================1==============");
+    @Transactional()
+    public OrderModel actualizarTotal(Integer id){
         OrderModel orderModel = this.getById(id);
-        // System.out.println("=================2==============");
         orderModel.setTotal(this.calculateTotal(orderModel.getId()));
-        // System.out.println("=================3==============");
-        orderRepository.save(orderModel);
-        // System.out.println("=================4==============");
+        
+        return orderRepository.save(orderModel);
+    }
 
+
+    @Transactional()
+    public List<OrderDetailModel> getProductsByOrder(Integer id){
+        this.getById(id);
+        List<OrderDetailModel> oD = new LinkedList<>();
+        oD = orderDetailRepository.findByOrderId( id);
+        // oD.stream().forEach((p)-> {});
+        return oD;
     }
 
 

@@ -2,15 +2,19 @@ package mx.food.marketapp.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "order_detail")
 public class OrderDetailModel {
 
     @EmbeddedId
+    @JsonBackReference
     private OrderDetailKeyModel id; 
 
     @ManyToOne(optional=false)
     @JoinColumn(name="order_id", insertable=false, updatable=false)
+    @JsonBackReference
     OrderModel order; 
 
     @ManyToOne(optional=false)

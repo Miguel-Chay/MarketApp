@@ -2,6 +2,7 @@ package mx.food.marketapp.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 @Embeddable
 public class OrderDetailKeyModel  implements Serializable{
 
@@ -13,6 +14,7 @@ public class OrderDetailKeyModel  implements Serializable{
   // private Integer productId;
   @ManyToOne(optional=false)
   @JoinColumn(name="order_id", insertable=false, updatable=false)
+  
   OrderModel orderId; 
 
   @ManyToOne(optional=false)
