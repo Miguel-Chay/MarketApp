@@ -53,7 +53,6 @@ public class OrderDetailService {
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
         orderDetail = orderDetailRepository.save(orderDetail);
-
         return orderDetail;    
     }
 

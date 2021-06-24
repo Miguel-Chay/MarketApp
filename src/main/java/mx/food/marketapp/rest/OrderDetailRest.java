@@ -1,5 +1,6 @@
 package mx.food.marketapp.rest;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 import javax.validation.Valid;
 // import org.springframework.web.bind.annotation.RequestMapping;
 
+import mx.food.marketapp.config.RabbitMqConfig;
 // import org.springframework.web.bind.annotation.RestController;
 import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.request.OrderDetailRequest;
@@ -30,6 +32,9 @@ public class OrderDetailRest {
     @Autowired
     private OrderDetailService orderDetailService;
 
+    @Autowired
+    private RabbitTemplate template;
+    
     @GetMapping("/orderDetails")
     public ResponseEntity<List<OrderDetailModel>> getOrderDetails(){
         List<OrderDetailModel> oD = orderDetailService.getOrderDetails();
@@ -46,6 +51,7 @@ public class OrderDetailRest {
     @PostMapping("/orderDetails")
     public ResponseEntity<OrderDetailModel> postOrderDetail(@RequestBody @Valid OrderDetailRequest request) throws URISyntaxException{
         OrderDetailModel oD = orderDetailService.crear(request);
+        template.convertAndSend(RabbitMqConfig.EXCHANGE, RabbitMqConfig.ROUTING_KEY, oD);
         return ResponseEntity.created(new URI("/orderDetails/"+oD.getId())).body(oD);
     }
 
