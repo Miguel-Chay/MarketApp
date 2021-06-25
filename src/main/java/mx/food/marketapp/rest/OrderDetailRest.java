@@ -48,10 +48,11 @@ public class OrderDetailRest {
     }
 
 
-    @PostMapping("/orderDetails")
-    public ResponseEntity<OrderDetailModel> postOrderDetail(@RequestBody @Valid OrderDetailRequest request) throws URISyntaxException{
+    @PostMapping("/orderDetails/{nombre}/{productId}")
+    public ResponseEntity<OrderDetailModel> postOrderDetail( @PathVariable String nombre, @PathVariable Integer productId,@RequestBody @Valid OrderDetailRequest request) throws URISyntaxException{
         OrderDetailModel oD = orderDetailService.crear(request);
-        template.convertAndSend(RabbitMqConfig.EXCHANGE, RabbitMqConfig.ROUTING_KEY, oD);
+        // template.convertAndSend(RabbitMqConfig.EXCHANGE, RabbitMqConfig.ROUTING_KEY, oD);
+        template.convertAndSend(RabbitMqConfig.EXCHANGEC,"commerce"+"."+productId, oD);
         return ResponseEntity.created(new URI("/orderDetails/"+oD.getId())).body(oD);
     }
 
