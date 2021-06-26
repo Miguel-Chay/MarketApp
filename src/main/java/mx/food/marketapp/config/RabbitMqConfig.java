@@ -10,43 +10,25 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.amqp.core.*;
 @Configuration
 public class RabbitMqConfig  {
-  public static final String QUEUEC = "Commerce_queue";
-  public static final String EXCHANGEC = "Commerce";
-  public static final String QUEUED = "Deliveryman_queue";
-  public static final String EXCHANGED = "Deliveryman";
+  public static final String QUEUE = "Commerce_queue";
+  public static final String EXCHANGE = "Commerce";
 //   public static final String ROUTING_KEY = "javatechie_routingKey";
 
   @Bean
-  public Queue queueCommerce() {
-      return new Queue(QUEUEC);
+  public Queue queue() {
+      return new Queue(QUEUE);
   }
 
   @Bean
-  public TopicExchange exchangeCommerce() {
-      return new TopicExchange(EXCHANGEC);
+  public TopicExchange exchange() {
+      return new TopicExchange(EXCHANGE);
   }
 
   @Bean
-  public Binding bindingCommerce(Queue queue, TopicExchange exchange) {
+  public Binding binding(Queue queue, TopicExchange exchange) {
       return BindingBuilder.bind(queue).to(exchange).with("commerce.#");
   }
   
-  @Bean
-  public Queue queueDeliveryman() {
-      return new Queue(QUEUED);
-  }
-
-  @Bean
-  public TopicExchange exchangeDeliveryman() {
-      return new TopicExchange(EXCHANGED);
-  }
-
-  @Bean
-  public Binding bindingDeliveryman(Queue queue, TopicExchange exchange) {
-      return BindingBuilder.bind(queue).to(exchange).with("deliveryman");
-  }
-
-
   @Bean
   public MessageConverter converter() {
       return new Jackson2JsonMessageConverter();

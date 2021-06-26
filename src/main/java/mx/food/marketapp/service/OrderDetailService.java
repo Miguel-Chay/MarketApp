@@ -4,11 +4,14 @@ import java.util.LinkedList;
 
 import javax.transaction.Transactional;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+import mx.food.marketapp.config.RabbitMqConfig;
 import mx.food.marketapp.exception.*;
 // import org.springframework.stereotype.Service;
 import mx.food.marketapp.model.OrderDetailKeyModel;
@@ -31,6 +34,9 @@ public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+    @Autowired
+    private RabbitTemplate template;
+
     public OrderDetailModel crear(OrderDetailRequest request){
         OrderDetailModel orderDetail = new OrderDetailModel();
 
@@ -42,10 +48,12 @@ public class OrderDetailService {
         order = orderRepository.findById(request.getOrderId()).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+request.getOrderId()));
         product = productRepository.findById(request.getProductId()).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
 
+
+
         odKey.setOrderId(order);
         odKey.setProductId(product);
 
-        
+
         orderDetail.setId(odKey);
         // orderDetail.setOrder(order);
         // orderDetail.setProduct(product);
@@ -53,6 +61,8 @@ public class OrderDetailService {
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
         orderDetail = orderDetailRepository.save(orderDetail);
+
+        // template.convertAndSend(RabbitMqConfig.EXCHANGE,"commerce"+"."+product.getCommerce().getId().toString(), orderDetail);
         return orderDetail;    
     }
 
@@ -69,6 +79,10 @@ public class OrderDetailService {
         orderDetail.setFinished(request.isFinished());
         orderDetail = orderDetailRepository.save(orderDetail);
 
+        // agregamos a la cola 
+        if(orderDetail.isFinished()) {
+            template.convertAndSend(RabbitMqConfig.EXCHANGE,"commerce"+"."+product.getCommerce().getId().toString(), orderDetail);
+        }
         return orderDetail;
     }
 
