@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import javax.transaction.Transactional;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -110,7 +111,13 @@ public class OrderDetailService {
         orderDetailRepository.deleteById(oD.getId());
     }
 
+    // @RabbitListener(queues = "Commerce_queue")
+    public OrderDetailModel receiveMessage(OrderDetailModel item) {
+        Tut1Receiver receiver = new Tut1Receiver();
+        receiver.receiveMessage(item);
+        // System.out.println("Received Message from Items Queue >>"+item);
+        return item;
+    }
 
 
-  
 }

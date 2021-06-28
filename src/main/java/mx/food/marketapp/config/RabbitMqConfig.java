@@ -3,8 +3,12 @@ package mx.food.marketapp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import mx.food.marketapp.service.RabbitMqListner;
+
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.amqp.core.*;
@@ -40,4 +44,14 @@ public class RabbitMqConfig  {
       rabbitTemplate.setMessageConverter(converter());
       return rabbitTemplate;
   }
+
+  @Bean
+	MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory ) {
+		SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+		simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
+		simpleMessageListenerContainer.setQueues(queue());
+		simpleMessageListenerContainer.setMessageListener(new RabbitMqListner());
+		return simpleMessageListenerContainer;
+
+	}
 }

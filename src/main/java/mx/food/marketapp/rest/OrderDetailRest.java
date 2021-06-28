@@ -66,4 +66,10 @@ public class OrderDetailRest {
         orderDetailService.deleteOrderDetails(orderId,productId);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/orderDetails/queque")
+    public ResponseEntity<OrderDetailModel> getOrderDetailq(){
+        OrderDetailModel oD = new OrderDetailModel();
+        return ResponseEntity.ok().body(orderDetailService.receiveMessage(oD));
+    }
+
 }
