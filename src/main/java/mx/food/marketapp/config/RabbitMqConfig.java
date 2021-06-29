@@ -45,13 +45,13 @@ public class RabbitMqConfig  {
       return rabbitTemplate;
   }
 
-  @Bean
-	MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory ) {
-		SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
-		simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
-		simpleMessageListenerContainer.setQueues(queue());
-		simpleMessageListenerContainer.setMessageListener(new RabbitMqListner());
-		return simpleMessageListenerContainer;
+//   @Bean
+// 	MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory ) {
+// 		SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+// 		simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
+// 		simpleMessageListenerContainer.setQueues(queue());
+// 		simpleMessageListenerContainer.setMessageListener(new RabbitMqListner());
+// 		return simpleMessageListenerContainer;
 
-	}
+// 	}
 }

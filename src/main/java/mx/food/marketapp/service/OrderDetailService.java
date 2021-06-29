@@ -4,10 +4,16 @@ import java.util.LinkedList;
 
 import javax.transaction.Transactional;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.GetResponse;
+
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jdk.internal.org.jline.utils.Log;
 
 import java.util.List;
 import java.util.Optional;
@@ -112,11 +118,20 @@ public class OrderDetailService {
     }
 
     // @RabbitListener(queues = "Commerce_queue")
-    public OrderDetailModel receiveMessage(OrderDetailModel item) {
-        Tut1Receiver receiver = new Tut1Receiver();
-        receiver.receiveMessage(item);
+    public OrderDetailModel receiveMessage() {
+        // Object message = template.receiveAndConvert(RabbitMqConfig.QUEUE);
+        Message message = template. receive("Commerce_queue");
+       System.out.println(message.getBody());
+        // if (message != null) {
+        //     OrderDetailModel order = (OrderDetailModel) message;
+        //     item = order;
+        // }
+        
+        // GetResponse ressponse = Channel.basicGet("Commerce_queue", true);
+        // Tut1Receiver receiver = new Tut1Receiver();
+        // receiver.receiveMessage(item);
         // System.out.println("Received Message from Items Queue >>"+item);
-        return item;
+        return null;
     }
 
 
