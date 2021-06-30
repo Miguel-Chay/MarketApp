@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class RabbitMqListner implements MessageListener{
   
   public void onMessage(Message message) {
-		System.out.println("Consuming Message - " + new String(message.getBody()));
+		System.out.println( System.currentTimeMillis() + " Consuming Message - " + new String(message.getBody()));
 	}
 
 }

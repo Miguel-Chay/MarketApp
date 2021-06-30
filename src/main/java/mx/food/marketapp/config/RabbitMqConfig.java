@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import mx.food.marketapp.service.RabbitMqListner;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -45,13 +46,18 @@ public class RabbitMqConfig  {
       return rabbitTemplate;
   }
 
-//   @Bean
-// 	MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory ) {
-// 		SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
-// 		simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
-// 		simpleMessageListenerContainer.setQueues(queue());
-// 		simpleMessageListenerContainer.setMessageListener(new RabbitMqListner());
-// 		return simpleMessageListenerContainer;
+  @Bean
+	MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory ) {
+		SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+		simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
+		simpleMessageListenerContainer.setQueues(queue());
+		simpleMessageListenerContainer.setMessageListener(new RabbitMqListner());
+		return simpleMessageListenerContainer;
 
-// 	}
+	}
+
+    @Bean
+    public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
+        return new RabbitAdmin(connectionFactory);
+    }
 }

@@ -7,7 +7,11 @@ import javax.transaction.Transactional;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.GetResponse;
 
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +47,9 @@ public class OrderDetailService {
 
     @Autowired
     private RabbitTemplate template;
+
+    @Autowired
+    private AmqpAdmin admin;
 
     public OrderDetailModel crear(OrderDetailRequest request){
         OrderDetailModel orderDetail = new OrderDetailModel();
@@ -88,6 +95,12 @@ public class OrderDetailService {
 
         // agregamos a la cola 
         if(orderDetail.isFinished()) {
+            // Queue queue = new Queue("queueName");
+            // Binding binding = new Binding("queueName", Binding.DestinationType.QUEUE, RabbitMqConfig.EXCHANGE,"commerce"+"."+product.getCommerce().getId().toString(), null);
+            // admin.declareQueue(queue);
+            // admin.declareBinding(binding);
+            // admin.declareExchange(new TopicExchange("queueName"));
+            // admin.initialize();
             template.convertAndSend(RabbitMqConfig.EXCHANGE,"commerce"+"."+product.getCommerce().getId().toString(), orderDetail);
         }
         return orderDetail;
@@ -116,23 +129,5 @@ public class OrderDetailService {
 
         orderDetailRepository.deleteById(oD.getId());
     }
-
-    // @RabbitListener(queues = "Commerce_queue")
-    public OrderDetailModel receiveMessage() {
-        // Object message = template.receiveAndConvert(RabbitMqConfig.QUEUE);
-        Message message = template. receive("Commerce_queue");
-       System.out.println(message.getBody());
-        // if (message != null) {
-        //     OrderDetailModel order = (OrderDetailModel) message;
-        //     item = order;
-        // }
-        
-        // GetResponse ressponse = Channel.basicGet("Commerce_queue", true);
-        // Tut1Receiver receiver = new Tut1Receiver();
-        // receiver.receiveMessage(item);
-        // System.out.println("Received Message from Items Queue >>"+item);
-        return null;
-    }
-
 
 }
