@@ -1,28 +1,15 @@
 package mx.food.marketapp.service;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.transaction.Transactional;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.GetResponse;
-
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jdk.internal.org.jline.utils.Log;
 
 import java.util.List;
-import java.util.Optional;
 
-import mx.food.marketapp.config.RabbitMqConfig;
 import mx.food.marketapp.exception.*;
 // import org.springframework.stereotype.Service;
 import mx.food.marketapp.model.OrderDetailKeyModel;
@@ -45,11 +32,8 @@ public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    @Autowired
-    private RabbitTemplate template;
-
-    @Autowired
-    private AmqpAdmin admin;
+    
+    
 
     public OrderDetailModel crear(OrderDetailRequest request){
         OrderDetailModel orderDetail = new OrderDetailModel();
@@ -61,7 +45,7 @@ public class OrderDetailService {
         
         order = orderRepository.findById(request.getOrderId()).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+request.getOrderId()));
         product = productRepository.findById(request.getProductId()).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
-
+        
 
 
         odKey.setOrderId(order);
@@ -74,35 +58,54 @@ public class OrderDetailService {
         orderDetail.setAmount(request.getAmount());
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
+  
+
+        orderDetail.setCommerceId(product.getCommerce());
         orderDetail = orderDetailRepository.save(orderDetail);
 
-        // template.convertAndSend(RabbitMqConfig.EXCHANGE,"commerce"+"."+product.getCommerce().getId().toString(), orderDetail);
         return orderDetail;    
     }
 
 
     public OrderDetailModel actualizar(Integer orderId,Integer productId, OrderDetailRequest request){
+        // System.out.println("============0================");
 
         OrderDetailModel orderDetail = getOrderDetail(orderId, productId);
+        // System.out.println("============1================");
         
-        ProductModel product = productRepository.findById(request.getProductId()).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
+        ProductModel product = productRepository.findById(productId).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
 
+        // System.out.println("=============2==============");
+        // System.out.println(orderDetail);
+        // System.out.println("=============3==============");
+
+        // System.out.println("=============4==============");
+
+        System.out.println(product);
+        System.out.println(product.getCommerce());
+        System.out.println(product.getCommerce().getId());
+        // System.out.println("==============5==============");
+        // Deprecated
+        // Date fecha = new Date();
+        // System.out.println("==============5==============");
+        // System.out.println (fecha.getDay());
+        // System.out.println (fecha.getMonth());
+        // System.out.println (fecha);
+        // System.out.println (fecha.getTime());
+        // System.out.println (fecha.getTimezoneOffset());
+
+
+
+        System.out.println("==============5==============");
         
         orderDetail.setAmount(request.getAmount());
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
+        orderDetail.setCommerceId(product.getCommerce());
+
         orderDetail = orderDetailRepository.save(orderDetail);
 
-        // agregamos a la cola 
-        if(orderDetail.isFinished()) {
-            // Queue queue = new Queue("queueName");
-            // Binding binding = new Binding("queueName", Binding.DestinationType.QUEUE, RabbitMqConfig.EXCHANGE,"commerce"+"."+product.getCommerce().getId().toString(), null);
-            // admin.declareQueue(queue);
-            // admin.declareBinding(binding);
-            // admin.declareExchange(new TopicExchange("queueName"));
-            // admin.initialize();
-            template.convertAndSend(RabbitMqConfig.EXCHANGE,"commerce"+"."+product.getCommerce().getId().toString(), orderDetail);
-        }
+        
         return orderDetail;
     }
 

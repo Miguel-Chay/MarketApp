@@ -59,10 +59,9 @@ public class OrderRest {
     }
    
     @PutMapping("orders/{id}/total")
-    public ResponseEntity<OrderModel> ala(@PathVariable Integer id) {
+    public ResponseEntity<OrderModel> calculate(@PathVariable Integer id) {
         OrderModel u = orderService.actualizarTotal(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(u);
-
     }
 
     @GetMapping("/orders/{id}/products")
@@ -70,6 +69,12 @@ public class OrderRest {
         List <OrderDetailModel> u = orderService.getProductsByOrder(id);
         // return ResponseEntity.status(HttpStatus.OK).body(u);
         return ResponseEntity.ok(u);
+    }
+
+    @PutMapping("orders/{id}/submit")
+    public ResponseEntity<OrderModel> ship(@PathVariable Integer id) {
+        OrderModel u = orderService.submit(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(u);
     }
 
 }

@@ -20,6 +20,7 @@ import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.request.OrderRequest;
 
 import mx.food.marketapp.repository.OrderRepository;
+import mx.food.marketapp.repository.ProductRepository;
 import mx.food.marketapp.repository.CustomerRepository;
 import mx.food.marketapp.repository.DeliverymanRepository;
 import mx.food.marketapp.repository.OrderDetailRepository;
@@ -35,6 +36,8 @@ public class OrderService {
     private CustomerRepository customerRepository;
     @Autowired
     private DeliverymanRepository deliverymanRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Transactional // Crear una transaccion
     public OrderModel crear(OrderRequest request) {
@@ -50,7 +53,7 @@ public class OrderService {
         
         order.setCustomerId(c);
         try {          
-            order.setStatus(OrderStatusModel.valueOf(request.getStatus()));
+            order.setStatus(OrderStatusModel.valueOf("ESPERA"));
         } catch (IllegalArgumentException e) {                   
             throw new BadRequestException("Valor invalido para status" + ": " + request.getStatus());
         }
@@ -168,4 +171,30 @@ public class OrderService {
     }
 
 
+    @Transactional
+    public OrderModel submit(Integer id){
+        OrderModel orderModel = this.getById(id);
+        this.actualizarTotal(id); //actualiza el total de price
+        
+        List<OrderDetailModel> oD = new LinkedList<>();
+        oD = orderDetailRepository.findByOrderId(id);
+        
+        oD.stream().forEach((p)-> {
+            int stock=p.getProduct().getStock()-p.getAmount();
+            if (stock<0)
+                throw new BadRequestException("No hay cantidad disponible para cubrir la demanda de: "+p.getProduct().getName());
+            p.getProduct().setStock(stock);
+            productRepository.save(p.getProduct());
+
+            p.setFinished(true);
+            orderDetailRepository.save(p);
+        });
+
+        try {          
+            orderModel.setStatus(OrderStatusModel.valueOf("COMPRADO"));
+        } catch (IllegalArgumentException e) {                   
+            throw new BadRequestException("Hubo un error al realizar la compra");
+        }
+        return orderRepository.save(orderModel);
+    }
 }

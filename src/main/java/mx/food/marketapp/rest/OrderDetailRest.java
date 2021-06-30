@@ -1,6 +1,5 @@
 package mx.food.marketapp.rest;
-
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,10 +16,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.validation.Valid;
-// import org.springframework.web.bind.annotation.RequestMapping;
-
-import mx.food.marketapp.config.RabbitMqConfig;
-// import org.springframework.web.bind.annotation.RestController;
+ 
 import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.request.OrderDetailRequest;
 import mx.food.marketapp.service.OrderDetailService;

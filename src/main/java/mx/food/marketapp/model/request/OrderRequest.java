@@ -9,7 +9,7 @@ public class OrderRequest {
     private Integer deliverymanId;
     @NotNull
     private Integer customerId;
-    @NotNull
+    // @NotNull
     private String status;
     @NotNull
     private Date orderDate;
