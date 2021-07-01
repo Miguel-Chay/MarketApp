@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import mx.food.marketapp.model.DeliverymanModel;
+import mx.food.marketapp.model.OrderModel;
 import mx.food.marketapp.model.request.RegisterDeliverymanRequest;
 import mx.food.marketapp.model.request.DeliverymanRequest;
 import mx.food.marketapp.service.DeliverymanService;
@@ -56,19 +57,24 @@ public class DeliverymanRest {
         return ResponseEntity.noContent().build();
     }
 
-    // @GetMapping("/quienSoy")
-    // public ResponseEntity<Deliveryman> getLoggedDeliveryman(){
-    //     Deliveryman deliveryman = (Deliveryman) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    //     return ResponseEntity.ok(deliveryman); 
-    // }
 
-    // @PostMapping("/register")
-    // public ResponseEntity<Deliveryman> registrarDeliveryman(@RequestBody DeliverymanRequest request) {
-    //     Deliveryman u = deliverymanService.crear(request);
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(u);
-    // }
-
+    @GetMapping("/deliverymen/orders")
+    public ResponseEntity<List<OrderModel>> getOrders(){
+        List<OrderModel> orders = deliverymanService.getOrdersavailable();
+        return ResponseEntity.ok(orders);
+    }
+    // deliverymen/orders/1/submit
     
+    @PutMapping("/deliverymen/{deliverymanId}/orders/{orderId}/submit")
+    public ResponseEntity<OrderModel> OrderSubmit(@PathVariable Integer deliverymanId,@PathVariable Integer orderId) {
+        OrderModel u = deliverymanService.submit(deliverymanId,orderId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(u);
+    }
     
+    @PutMapping("/deliverymen/{deliverymanId}/orders/{orderId}/delivered")
+    public ResponseEntity<OrderModel> OrderDelivered(@PathVariable Integer deliverymanId,@PathVariable Integer orderId) {
+        OrderModel u = deliverymanService.delivered(deliverymanId,orderId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(u);
+    }
 
 }

@@ -10,4 +10,5 @@ public interface DeliverymanRepository extends JpaRepository<DeliverymanModel, I
     public DeliverymanModel findByFirstname(String username);
         // public Salesman findBySalesmanContaining(String nombre); // LIKE %nombre%
 
+
 }

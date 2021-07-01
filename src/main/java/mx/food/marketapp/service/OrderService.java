@@ -2,12 +2,8 @@ package mx.food.marketapp.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Calendar;
 // import java.sql.Date;
 import java.util.Date;
-import java.io.Console;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 
 // import com.mysql.cj.xdevapi.DatabaseObject.DbObjectStatus;
 
@@ -189,10 +185,7 @@ public class OrderService {
         oD.stream().forEach((p)-> {
 
             int stock=p.getProduct().getStock()-p.getAmount();
-            System.out.println("antes");
-            System.out.println(p.isFinished());
-            System.out.println(p.getProduct().getStock());
-
+  
             if (stock<0)
                 throw new BadRequestException("No hay cantidad disponible para cubrir la demanda de: "+p.getProduct().getName());
             p.getProduct().setStock(stock);
@@ -201,9 +194,7 @@ public class OrderService {
                 throw new BadRequestException("El producto "+p.getProduct().getName()+", que se encuentra en su carrito ya ha sido comprado");
             p.setFinished(true);
             orderDetailRepository.save(p);
-            System.out.println("despues");
-            System.out.println(p.isFinished());
-            System.out.println(p.getProduct().getStock());
+  
 
         });
 
