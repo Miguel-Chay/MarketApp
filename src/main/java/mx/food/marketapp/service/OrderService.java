@@ -2,6 +2,10 @@ package mx.food.marketapp.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Calendar;
+import java.sql.Date;
+// import java.util.Date;
+import java.text.SimpleDateFormat;
 
 // import com.mysql.cj.xdevapi.DatabaseObject.DbObjectStatus;
 
@@ -189,6 +193,15 @@ public class OrderService {
             p.setFinished(true);
             orderDetailRepository.save(p);
         });
+
+
+        Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+        String fechaTexto = formatter.format(fecha);
+        System.out.println (fecha);
+        System.out.println (fechaTexto);
+        orderModel.setOrderDate(fecha);
+
 
         try {          
             orderModel.setStatus(OrderStatusModel.valueOf("COMPRADO"));
