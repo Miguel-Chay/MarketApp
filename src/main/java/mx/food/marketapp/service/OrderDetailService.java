@@ -49,8 +49,7 @@ public class OrderDetailService {
 
         odKey.setOrderId(order);
         odKey.setProductId(product);
-
-
+    
         orderDetail.setId(odKey);
         // orderDetail.setOrder(order);
         // orderDetail.setProduct(product);
@@ -59,7 +58,7 @@ public class OrderDetailService {
         orderDetail.setFinished(request.isFinished());
   
 
-        orderDetail.setCommerceId(product.getCommerce());
+        orderDetail.setCommerce(product.getCommerce());
         orderDetail = orderDetailRepository.save(orderDetail);
 
         return orderDetail;    
@@ -76,7 +75,7 @@ public class OrderDetailService {
         orderDetail.setAmount(request.getAmount());
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
-        orderDetail.setCommerceId(product.getCommerce());
+        orderDetail.setCommerce(product.getCommerce());
         orderDetail = orderDetailRepository.save(orderDetail);
        
         return orderDetail;

@@ -30,17 +30,17 @@ public class OrderDetailModel {
     @Column(name = "finished")
     private boolean finished;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="commerce_id",  insertable=false, updatable=false)
-    private CommerceModel commerceId;
+    @ManyToOne
+    @JoinColumn(name="commerce_id")
+    private CommerceModel commerce;
 
-    public CommerceModel getCommerceId() {
-        return commerceId;
+    public CommerceModel getCommerce() {
+        return commerce;
     }
 
 
-    public void setCommerceId(CommerceModel commerceId) {
-        this.commerceId = commerceId;
+    public void setCommerce(CommerceModel commerceId) {
+        this.commerce = commerceId;
     }
 
 

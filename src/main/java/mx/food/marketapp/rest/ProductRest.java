@@ -27,7 +27,7 @@ public class ProductRest {
     private ProductService productService;
 
     @PostMapping("/products")
-    public ResponseEntity<ProductModel> registrarSalesman(@Valid @RequestBody ProductRequest request) {
+    public ResponseEntity<ProductModel> registrarProducto(@Valid @RequestBody ProductRequest request) {
         ProductModel u = productService.crear(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(u);
     }

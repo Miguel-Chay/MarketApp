@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.food.marketapp.model.CommerceModel;
+import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.ProductModel;
 import mx.food.marketapp.model.request.CommerceRequest;
 import mx.food.marketapp.service.CommerceService;
@@ -52,21 +53,27 @@ public class CommerceRest {
   // regresa los productos de un determinado comercio 
   @GetMapping("/commerces/{id}/products")
   public ResponseEntity<List<ProductModel>> getCommerceProduct(@PathVariable Integer id) {
-      List<ProductModel> products = commerceService.getProductByCommerce(id);
-      return ResponseEntity.ok(products);
+    List<ProductModel> products = commerceService.getProductByCommerce(id);
+    return ResponseEntity.ok(products);
   }
 
   @GetMapping("/commerces/{id}")
-  public ResponseEntity<CommerceModel> getSalesman(@PathVariable Integer id) {
+  public ResponseEntity<CommerceModel> getCommerce(@PathVariable Integer id) {
     CommerceModel commerce = commerceService.getById(id);
     return ResponseEntity.status(HttpStatus.OK).body(commerce);
   }
 
   @DeleteMapping("/commerces/{id}")
-  public ResponseEntity<Void> deleteSalesman(@PathVariable Integer id) {
+  public ResponseEntity<Void> deleteCommerce(@PathVariable Integer id) {
     commerceService.delete(id);
     return ResponseEntity.noContent().build();
   }
 
-
+  // ver los pedidos de un negocio
+  // regresa los productos de un determinado comercio 
+  @GetMapping("/commerces/{id}/orders")
+  public ResponseEntity<List<OrderDetailModel>> getOrdersByCommerce(@PathVariable Integer id) {
+    List<OrderDetailModel> orders = commerceService.getOrdersByCommerce(id);
+    return ResponseEntity.ok(orders);
+  }
 }

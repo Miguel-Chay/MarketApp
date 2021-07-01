@@ -12,10 +12,12 @@ import mx.food.marketapp.exception.BadRequestException;
 import mx.food.marketapp.exception.NotFoundException;
 import mx.food.marketapp.model.CityModel;
 import mx.food.marketapp.model.CommerceModel;
+import mx.food.marketapp.model.OrderDetailModel;
 import mx.food.marketapp.model.ProductModel;
 import mx.food.marketapp.model.SalesmanModel;
 import mx.food.marketapp.model.request.CommerceRequest;
 import mx.food.marketapp.repository.CommerceRepository;
+import mx.food.marketapp.repository.OrderDetailRepository;
 import mx.food.marketapp.repository.ProductRepository;
 import mx.food.marketapp.repository.SalesmanRepository;
 
@@ -30,6 +32,8 @@ public class CommerceService {
 
   @Autowired
   private ProductRepository productRepository;
+  @Autowired
+  private OrderDetailRepository orderDetailRepository;
   @Transactional
   public CommerceModel create(CommerceRequest request) {
     SalesmanModel salesman = salesmanRepository.findById(request.getSalesmanId()).orElseThrow(()-> new NotFoundException("No se pudo encontrar al vendedor con id: "+request.getSalesmanId()));
@@ -105,8 +109,15 @@ public class CommerceService {
     CommerceModel commerce = commerceRepository.findById(idCommerce).orElseThrow(()-> new NotFoundException());;
     List<ProductModel> products = new LinkedList<>();
     productRepository.findByCommerce(commerce).iterator().forEachRemaining(products::add);
-    System.out.println(products);
     return products;
+  }
+
+  public List<OrderDetailModel> getOrdersByCommerce(Integer id) {
+    CommerceModel commerce = commerceRepository.findById(id).orElseThrow(()-> new NotFoundException());;
+    List<OrderDetailModel> orderDetail = new LinkedList<>();
+    orderDetailRepository.findByCommerce(commerce).forEach(orderDetail::add);
+    // productRepository.findByCommerce(commerce).iterator().forEachRemaining(orderDetail::add);
+    return orderDetail;
   }
 
 }

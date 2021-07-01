@@ -28,7 +28,6 @@ public class OrderDetailRest {
     @Autowired
     private OrderDetailService orderDetailService;
 
-    @Autowired
     // private RabbitTemplate template;
     
     @GetMapping("/orderDetails")
