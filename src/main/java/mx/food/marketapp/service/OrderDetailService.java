@@ -1,5 +1,6 @@
 package mx.food.marketapp.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -86,15 +87,16 @@ public class OrderDetailService {
         System.out.println(product.getCommerce().getId());
         // System.out.println("==============5==============");
         // Deprecated
-        // Date fecha = new Date();
-        // System.out.println("==============5==============");
-        // System.out.println (fecha.getDay());
-        // System.out.println (fecha.getMonth());
-        // System.out.println (fecha);
-        // System.out.println (fecha.getTime());
-        // System.out.println (fecha.getTimezoneOffset());
+        Date fecha = new Date();
+        System.out.println("==============5==============");
+        System.out.println (fecha.getDay());
+        System.out.println (fecha.getMonth());
+        System.out.println (fecha);
+        System.out.println (fecha.getTime());
+        System.out.println (fecha.getTimezoneOffset());
 
-
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        System.out.println (formatter);
 
         System.out.println("==============5==============");
         

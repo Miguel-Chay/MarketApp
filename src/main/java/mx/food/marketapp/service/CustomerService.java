@@ -49,7 +49,7 @@ public class CustomerService {
         newuser.setUsername(request.getUsername());
         newuser.setPassword(passwordEncoder.encode(request.getPassword()));
         newuser.setEmail(request.getEmail());
-        newuser.setType(request.getType());
+        newuser.setType("customer");
         newuser = userRepository.save(newuser); 
               
         CustomerModel newCustomer = new CustomerModel();

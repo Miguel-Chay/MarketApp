@@ -18,8 +18,8 @@ public class RegisterSalesmanRequest {
     @NotNull
     @Pattern(regexp="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$")
     private String email;
-    @NotNull
-    private String type;
+    // @NotNull
+    // private String type;
 //DATOS DE SALESMAN
     @NotNull
     private String firstname;
@@ -64,13 +64,13 @@ public class RegisterSalesmanRequest {
     }
  
     
-    public void setType(String type) {
-        this.type = type;
-    }
+    // public void setType(String type) {
+    //     this.type = type;
+    // }
  
-    public String getType() {
-        return type;
-    }
+    // public String getType() {
+    //     return type;
+    // }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;

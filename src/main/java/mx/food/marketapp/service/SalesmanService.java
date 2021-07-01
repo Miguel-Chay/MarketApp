@@ -48,7 +48,7 @@ public class SalesmanService {
         newuser.setUsername(request.getUsername());
         newuser.setPassword(passwordEncoder.encode(request.getPassword()));
         newuser.setEmail(request.getEmail());
-        newuser.setType(request.getType());
+        newuser.setType("salesman");
         newuser = userRepository.save(newuser); 
               
         SalesmanModel newSalesman = new SalesmanModel();

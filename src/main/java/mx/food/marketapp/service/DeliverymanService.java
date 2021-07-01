@@ -49,7 +49,7 @@ public class DeliverymanService {
         newuser.setUsername(request.getUsername());
         newuser.setPassword(passwordEncoder.encode(request.getPassword()));
         newuser.setEmail(request.getEmail());
-        newuser.setType(request.getType());
+        newuser.setType("deliveryman");
         newuser = userRepository.save(newuser); 
               
         DeliverymanModel newDeliveryman = new DeliverymanModel();
