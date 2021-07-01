@@ -15,5 +15,6 @@ import mx.food.marketapp.model.OrderDetailModel;
         // public OrderDetailModel findByOrderIdAndFinished(String orderId, boolean finished);
         public List <OrderDetailModel> findByOrderId(Integer order);
         public List<OrderDetailModel> findByCommerce(CommerceModel commerce);
+        public List<OrderDetailModel> findByCommerceAndFinished(CommerceModel commerce, boolean finished);
     
     }

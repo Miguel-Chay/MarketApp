@@ -115,8 +115,20 @@ public class CommerceService {
   public List<OrderDetailModel> getOrdersByCommerce(Integer id) {
     CommerceModel commerce = commerceRepository.findById(id).orElseThrow(()-> new NotFoundException());;
     List<OrderDetailModel> orderDetail = new LinkedList<>();
-    orderDetailRepository.findByCommerce(commerce).forEach(orderDetail::add);
+    orderDetailRepository.findByCommerceAndFinished(commerce, false).forEach(orderDetail::add);
     // productRepository.findByCommerce(commerce).iterator().forEachRemaining(orderDetail::add);
+    return orderDetail;
+  }
+
+  public List<OrderDetailModel> getOrdersSoldByCommerce(Integer id) {
+    CommerceModel commerce = commerceRepository.findById(id).orElseThrow(()-> new NotFoundException());;
+    List<OrderDetailModel> orderDetail = new LinkedList<>();
+    // List<OrderDetailModel> orderDetailList = orderDetailRepository.findAll();
+
+    // orderDetailList.forEach((order)-> {
+
+    // });
+    orderDetailRepository.findByCommerceAndFinished(commerce, true).forEach(orderDetail::add);
     return orderDetail;
   }
 

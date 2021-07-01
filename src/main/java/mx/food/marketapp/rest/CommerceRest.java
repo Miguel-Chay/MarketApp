@@ -69,11 +69,17 @@ public class CommerceRest {
     return ResponseEntity.noContent().build();
   }
 
-  // ver los pedidos de un negocio
-  // regresa los productos de un determinado comercio 
+  // ver los pedidos de un negocio 
   @GetMapping("/commerces/{id}/orders")
   public ResponseEntity<List<OrderDetailModel>> getOrdersByCommerce(@PathVariable Integer id) {
     List<OrderDetailModel> orders = commerceService.getOrdersByCommerce(id);
+    return ResponseEntity.ok(orders);
+  }
+
+  // regresa una lista de ordenes compradas por negocios
+  @GetMapping("/commerces/{id}/ordersSold")
+  public ResponseEntity<List<OrderDetailModel>> getOrdersSoldByCommerce(@PathVariable Integer id) {
+    List<OrderDetailModel> orders = commerceService.getOrdersSoldByCommerce(id);
     return ResponseEntity.ok(orders);
   }
 }
