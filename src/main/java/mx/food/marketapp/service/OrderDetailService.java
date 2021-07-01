@@ -1,7 +1,5 @@
 package mx.food.marketapp.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 
 import javax.transaction.Transactional;
@@ -69,45 +67,18 @@ public class OrderDetailService {
 
 
     public OrderDetailModel actualizar(Integer orderId,Integer productId, OrderDetailRequest request){
-        // System.out.println("============0================");
 
         OrderDetailModel orderDetail = getOrderDetail(orderId, productId);
-        // System.out.println("============1================");
-        
+       
         ProductModel product = productRepository.findById(productId).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
 
-        // System.out.println("=============2==============");
-        // System.out.println(orderDetail);
-        // System.out.println("=============3==============");
-
-        // System.out.println("=============4==============");
-
-        System.out.println(product);
-        System.out.println(product.getCommerce());
-        System.out.println(product.getCommerce().getId());
-        // System.out.println("==============5==============");
-        // Deprecated
-        Date fecha = new Date();
-        System.out.println("==============5==============");
-        System.out.println (fecha.getDay());
-        System.out.println (fecha.getMonth());
-        System.out.println (fecha);
-        System.out.println (fecha.getTime());
-        System.out.println (fecha.getTimezoneOffset());
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-        System.out.println (formatter);
-
-        System.out.println("==============5==============");
         
         orderDetail.setAmount(request.getAmount());
         orderDetail.setSubtotal(request.getAmount()*product.getPrice());
         orderDetail.setFinished(request.isFinished());
         orderDetail.setCommerceId(product.getCommerce());
-
         orderDetail = orderDetailRepository.save(orderDetail);
-
-        
+       
         return orderDetail;
     }
 

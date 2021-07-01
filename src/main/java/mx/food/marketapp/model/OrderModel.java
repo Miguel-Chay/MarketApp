@@ -1,6 +1,8 @@
 package mx.food.marketapp.model;
 
-import java.sql.Date;
+import java.util.Date;
+
+// import java.sql.Date;
 
 import javax.persistence.*;
 @Entity

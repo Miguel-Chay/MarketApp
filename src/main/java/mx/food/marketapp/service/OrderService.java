@@ -3,9 +3,11 @@ package mx.food.marketapp.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Calendar;
-import java.sql.Date;
-// import java.util.Date;
+// import java.sql.Date;
+import java.util.Date;
+import java.io.Console;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 // import com.mysql.cj.xdevapi.DatabaseObject.DbObjectStatus;
 
@@ -179,30 +181,35 @@ public class OrderService {
     public OrderModel submit(Integer id){
         OrderModel orderModel = this.getById(id);
         this.actualizarTotal(id); //actualiza el total de price
-        
+        if(orderModel.getStatus()==OrderStatusModel.valueOf("COMPRADO"))
+            throw new BadRequestException("Esta orden ya ha sido comprada");
         List<OrderDetailModel> oD = new LinkedList<>();
         oD = orderDetailRepository.findByOrderId(id);
         
         oD.stream().forEach((p)-> {
+
             int stock=p.getProduct().getStock()-p.getAmount();
+            System.out.println("antes");
+            System.out.println(p.isFinished());
+            System.out.println(p.getProduct().getStock());
+
             if (stock<0)
                 throw new BadRequestException("No hay cantidad disponible para cubrir la demanda de: "+p.getProduct().getName());
             p.getProduct().setStock(stock);
             productRepository.save(p.getProduct());
-
+            if (p.isFinished())
+                throw new BadRequestException("El producto "+p.getProduct().getName()+", que se encuentra en su carrito ya ha sido comprado");
             p.setFinished(true);
             orderDetailRepository.save(p);
+            System.out.println("despues");
+            System.out.println(p.isFinished());
+            System.out.println(p.getProduct().getStock());
+
         });
 
-
-        Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-        String fechaTexto = formatter.format(fecha);
-        System.out.println (fecha);
-        System.out.println (fechaTexto);
-        orderModel.setOrderDate(fecha);
-
-
+        Date now =new Date();
+        orderModel.setOrderDate(now);
+ 
         try {          
             orderModel.setStatus(OrderStatusModel.valueOf("COMPRADO"));
         } catch (IllegalArgumentException e) {                   
