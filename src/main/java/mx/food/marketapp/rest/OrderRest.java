@@ -77,4 +77,10 @@ public class OrderRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(u);
     }
 
+
+    @PutMapping("orders/{id}/cancel")
+    public ResponseEntity<OrderModel> cancelar(@PathVariable Integer id) {
+        OrderModel u = orderService.cancel(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(u);
+    }
 }

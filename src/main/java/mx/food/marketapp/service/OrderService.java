@@ -16,6 +16,7 @@ import mx.food.marketapp.exception.*;
 import mx.food.marketapp.model.OrderModel;
 import mx.food.marketapp.model.OrderStatusModel;
 import mx.food.marketapp.model.PaymentModel;
+import mx.food.marketapp.model.UserModel;
 import mx.food.marketapp.model.CustomerModel;
 import mx.food.marketapp.model.DeliverymanModel;
 import mx.food.marketapp.model.OrderDetailModel;
@@ -23,6 +24,7 @@ import mx.food.marketapp.model.request.OrderRequest;
 
 import mx.food.marketapp.repository.OrderRepository;
 import mx.food.marketapp.repository.ProductRepository;
+import mx.food.marketapp.repository.UserRepository;
 import mx.food.marketapp.repository.CustomerRepository;
 import mx.food.marketapp.repository.DeliverymanRepository;
 import mx.food.marketapp.repository.OrderDetailRepository;
@@ -40,6 +42,9 @@ public class OrderService {
     private DeliverymanRepository deliverymanRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Transactional // Crear una transaccion
     public OrderModel crear(OrderRequest request) {
@@ -177,8 +182,8 @@ public class OrderService {
     public OrderModel submit(Integer id){
         OrderModel orderModel = this.getById(id);
         this.actualizarTotal(id); //actualiza el total de price
-        if(orderModel.getStatus()==OrderStatusModel.valueOf("COMPRADO"))
-            throw new BadRequestException("Esta orden ya ha sido comprada");
+        if(orderModel.getStatus()!=OrderStatusModel.valueOf("ESPERA"))
+            throw new BadRequestException("Esta orden no puede ser comprada");
         List<OrderDetailModel> oD = new LinkedList<>();
         oD = orderDetailRepository.findByOrderId(id);
         
@@ -206,6 +211,61 @@ public class OrderService {
         } catch (IllegalArgumentException e) {                   
             throw new BadRequestException("Hubo un error al realizar la compra");
         }
+
+        // ==================================================
+        //                     CORREO
+        //      HAS REALIZADO UNA COMPRA
+        // UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
+        // user.getEmail();
+        
+        // ==================================================
+
         return orderRepository.save(orderModel);
     }
+
+
+    public OrderModel cancel(Integer id){
+        OrderModel orderModel = this.getById(id);
+
+        if(orderModel.getStatus()!=OrderStatusModel.valueOf("COMPRADO"))
+            throw new BadRequestException("Esta orden no puede ser cancelada");
+
+
+        List<OrderDetailModel> oD = new LinkedList<>();
+        oD = orderDetailRepository.findByOrderId(id);
+            
+        oD.stream().forEach((p)-> {
+    
+            int stock=p.getProduct().getStock()+p.getAmount(); //devuelve los productos (productos en stock + productos comprados)
+    
+            p.getProduct().setStock(stock);
+            productRepository.save(p.getProduct());
+
+            p.setFinished(false);
+            orderDetailRepository.save(p);
+    
+        });
+    
+        orderModel.setStatus(OrderStatusModel.valueOf("ESPERA"));//su carrito vuelve a estado de espera, para seguir comprando
+        orderModel.setOrderDate(null);
+        orderModel.setDeliveredDate(null);
+        orderModel.setTotal(0);
+        System.out.println(orderModel);
+        System.out.println(orderModel.getDeliveredDate());
+        orderRepository.save(orderModel);
+        // ==================================================
+        //                     CORREO
+        //  (la compra ha sido cancelada, los productos han sido regresados al stock de los vendedores)
+        // UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
+        // user.getEmail();
+        // ==================================================
+
+
+        return orderModel;
+    }
+
+
+
+
+
 }

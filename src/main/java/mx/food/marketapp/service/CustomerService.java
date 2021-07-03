@@ -71,6 +71,12 @@ public class CustomerService {
         // newCustomer.setUser(newuser); // Relacionar 2 entidades
         newCustomer = customerRepository.save(newCustomer); 
         
+
+        // ==================================================
+        //                     CORREO
+        // ==================================================
+
+
         return newCustomer;
         
     } 

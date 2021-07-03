@@ -5,5 +5,6 @@ public enum OrderStatusModel {
   ESPERA,
   COMPRADO,
   ENVIANDO,
-  ENTREGADO,  
+  ENTREGADO,
+  CANCELADO  
 }

@@ -53,6 +53,13 @@ public class CommerceService {
     commerce.setLogo(request.getLogo());
     commerce.setPhone(request.getPhone());
     commerce = commerceRepository.save(commerce);
+
+    // ==================================================
+    //                     CORREO
+    // salesman.getUser().getEmail();
+    // ==================================================
+
+
     return commerce;
   }
 
@@ -76,6 +83,12 @@ public class CommerceService {
     commerce.setLogo(request.getLogo());
     commerce.setPhone(request.getPhone());
     commerce = commerceRepository.save(commerce);
+
+    // ==================================================
+    //                     CORREO
+    // ==================================================
+
+
     return commerce;
   }
 

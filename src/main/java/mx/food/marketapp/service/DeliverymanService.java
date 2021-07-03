@@ -81,6 +81,13 @@ public class DeliverymanService {
         }
         // newDeliveryman.setUser(newuser); // Relacionar 2 entidades
         newDeliveryman = deliverymanRepository.save(newDeliveryman); 
+
+
+
+        // ==================================================
+        //                     CORREO
+        // ==================================================
+
         
         return newDeliveryman;
         
@@ -162,6 +169,14 @@ public class DeliverymanService {
         order.setDerliverymanId(deliveryman);
 
         orderRepository.save(order);
+
+
+        // ==================================================
+        //                     CORREO (su pedido esta en camino)
+        // UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        // user.getEmail();
+        // ==================================================
+
         return order;
     }
 
@@ -175,6 +190,13 @@ public class DeliverymanService {
         Date now =new Date();
         order.setDeliveredDate(now);
         orderRepository.save(order);
+
+        // ==================================================
+        //                     CORREO (se ha realizado la entrega de su pedido)
+        // UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        // user.getEmail();
+        // ==================================================
+
         return order;
     }
  

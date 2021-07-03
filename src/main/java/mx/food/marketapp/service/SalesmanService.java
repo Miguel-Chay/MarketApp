@@ -71,6 +71,10 @@ public class SalesmanService {
         // newSalesman.setUser(newuser); // Relacionar 2 entidades
         newSalesman = salesmanRepository.save(newSalesman); 
         
+        // ==================================================
+        //                     CORREO
+        // ==================================================
+
         return newSalesman;
         
     } 

@@ -33,8 +33,7 @@ public class JwtUserService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserModel user = userRepository.findByUsername(username);
 		if (user!=null) {
-			return new User(user.getUsername(), user.getPassword(),
-					new ArrayList<>());
+			return new User(user.getUsername(), user.getPassword(),	new ArrayList<>());
 		} else {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
@@ -63,7 +62,9 @@ public class JwtUserService implements UserDetailsService{
 		if (user!=null) {
 			UserDetails userDetails = new User(user.getUsername(), user.getPassword(),	new ArrayList<>());
 			String token = jwtTokenUtil.generateToken(userDetails);
-			
+			// ==================================================
+        	//                     CORREO
+        	// ==================================================
 			return token;
 		} else {
 			throw new UsernameNotFoundException("User not found with username: " + username);
