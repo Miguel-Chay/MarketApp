@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import mx.food.marketapp.repository.SalesmanRepository;
 import mx.food.marketapp.repository.UserRepository;
+import mx.food.marketapp.config.EmailSender;
 
 @Service
 public class SalesmanService {
@@ -32,9 +33,9 @@ public class SalesmanService {
     private UserRepository userRepository;
 	@Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmailSender emailSender;
  
-
-
     @Transactional // Crear una transaccion
     public SalesmanModel registrar(RegisterSalesmanRequest request) {
 
@@ -74,7 +75,9 @@ public class SalesmanService {
         // ==================================================
         //                     CORREO
         // ==================================================
-
+        UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido vendedor");
+        
         return newSalesman;
         
     } 

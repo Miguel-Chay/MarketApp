@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import mx.food.marketapp.repository.CustomerRepository;
 import mx.food.marketapp.repository.UserRepository;
+import mx.food.marketapp.config.EmailSender;
 
 @Service
 public class CustomerService {
@@ -33,6 +34,8 @@ public class CustomerService {
     private UserRepository userRepository;
 	@Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmailSender emailSender;
  
 
 
@@ -75,7 +78,9 @@ public class CustomerService {
         // ==================================================
         //                     CORREO
         // ==================================================
-
+        UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido cliente");
+        
 
         return newCustomer;
         

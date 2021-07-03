@@ -28,6 +28,7 @@ import mx.food.marketapp.repository.UserRepository;
 import mx.food.marketapp.repository.CustomerRepository;
 import mx.food.marketapp.repository.DeliverymanRepository;
 import mx.food.marketapp.repository.OrderDetailRepository;
+import mx.food.marketapp.config.EmailSender;
 
 @Service
 public class OrderService {
@@ -44,7 +45,8 @@ public class OrderService {
     private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private EmailSender emailSender;
 
     @Transactional // Crear una transaccion
     public OrderModel crear(OrderRequest request) {
@@ -219,7 +221,9 @@ public class OrderService {
         // user.getEmail();
         
         // ==================================================
-
+        UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su compra ha sido realizada.", user.getEmail(), "Compra realizada");
+   
         return orderRepository.save(orderModel);
     }
 
@@ -259,7 +263,9 @@ public class OrderService {
         // UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
         // user.getEmail();
         // ==================================================
-
+        UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Cliente " +user.getUsername()+ "su pedido ha sido cancelado, una disculpa.", user.getEmail(), "Pedido cancelado");
+   
 
         return orderModel;
     }

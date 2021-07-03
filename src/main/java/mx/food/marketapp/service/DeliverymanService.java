@@ -3,6 +3,7 @@ package mx.food.marketapp.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.rabbitmq.client.AMQP.Basic.Deliver;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -28,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import mx.food.marketapp.repository.DeliverymanRepository;
 import mx.food.marketapp.repository.OrderRepository;
 import mx.food.marketapp.repository.UserRepository;
+import mx.food.marketapp.config.EmailSender;
 
 @Service
 public class DeliverymanService {
@@ -40,7 +42,9 @@ public class DeliverymanService {
     private PasswordEncoder passwordEncoder;
 	@Autowired
     private OrderRepository orderRepository;
-
+    @Autowired
+    private EmailSender emailSender;
+    
 
     @Transactional // Crear una transaccion
     public DeliverymanModel registrar(RegisterDeliverymanRequest request) {
@@ -87,7 +91,11 @@ public class DeliverymanService {
         // ==================================================
         //                     CORREO
         // ==================================================
-
+        DeliverymanModel name= new DeliverymanModel();
+        name = userRepository.findById();
+        //preguntar como obtener el nombre
+        UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido repartidor");
         
         return newDeliveryman;
         
@@ -176,7 +184,8 @@ public class DeliverymanService {
         // UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
         // user.getEmail();
         // ==================================================
-
+        UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su pedido está en camino", user.getEmail(), "Pedido en camino");
         return order;
     }
 
@@ -196,7 +205,9 @@ public class DeliverymanService {
         // UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
         // user.getEmail();
         // ==================================================
-
+        UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su pedido ha sido entregado.", user.getEmail(), "Pedido entregado");
+       
         return order;
     }
  

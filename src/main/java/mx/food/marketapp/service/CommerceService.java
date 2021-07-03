@@ -20,6 +20,7 @@ import mx.food.marketapp.repository.CommerceRepository;
 import mx.food.marketapp.repository.OrderDetailRepository;
 import mx.food.marketapp.repository.ProductRepository;
 import mx.food.marketapp.repository.SalesmanRepository;
+import mx.food.marketapp.config.EmailSender;
 
 @Service
 public class CommerceService {
@@ -34,6 +35,9 @@ public class CommerceService {
   private ProductRepository productRepository;
   @Autowired
   private OrderDetailRepository orderDetailRepository;
+  @Autowired
+  private EmailSender emailSender;
+
   @Transactional
   public CommerceModel create(CommerceRequest request) {
     SalesmanModel salesman = salesmanRepository.findById(request.getSalesmanId()).orElseThrow(()-> new NotFoundException("No se pudo encontrar al vendedor con id: "+request.getSalesmanId()));
@@ -58,7 +62,8 @@ public class CommerceService {
     //                     CORREO
     // salesman.getUser().getEmail();
     // ==================================================
-
+    emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido vendedor");
+        
 
     return commerce;
   }
@@ -87,7 +92,8 @@ public class CommerceService {
     // ==================================================
     //                     CORREO
     // ==================================================
-
+    emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido vendedor");
+    
 
     return commerce;
   }
