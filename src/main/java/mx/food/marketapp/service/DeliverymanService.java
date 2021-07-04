@@ -86,19 +86,10 @@ public class DeliverymanService {
         // newDeliveryman.setUser(newuser); // Relacionar 2 entidades
         newDeliveryman = deliverymanRepository.save(newDeliveryman); 
 
-
-
-        // ==================================================
-        //                     CORREO
-        // ==================================================
-        //DeliverymanModel name= new DeliverymanModel();
-        //name = userRepository.findById();
-        //preguntar como obtener el nombre
-        //UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+        emailSender.enviarCorreo("Bienvenid@ a MarketApp, "+newuser.getUsername() + ". \n Esperemos tengo un buen día.",
+        newuser.getEmail(), "Bienvenido repartidor");
         
-        emailSender.enviarCorreo("Bienvenid@ a MarketApp \n"+newuser.getUsername(), newuser.getEmail(), "Bienvenido repartidor");
-        
-        System.out.println("COREOOO.... \n"+"Bienvenid@ a MarketApp"+newuser.getUsername() + " " +newuser.getEmail()+ "Bienvenido repartidor");
+        //System.out.println("COREOOO.... \n"+"Bienvenid@ a MarketApp"+newuser.getUsername() + " " +newuser.getEmail()+ "Bienvenido repartidor");
         return newDeliveryman;
         
     } 
@@ -182,10 +173,10 @@ public class DeliverymanService {
         
         //correo pal usuario
         UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su pedido está en camino", user.getEmail(), "Pedido en camino");
+        emailSender.enviarCorreo("Hola, "+user.getUsername()+ " su pedido está en camino", user.getEmail(), "Pedido en camino");
         //correo pal repartidor 
-        emailSender.enviarCorreo("Repartidor, "+ deliveryman.getUser().getUsername()+" tiene un nuevo pedido asignado del comercio \n\n"
-        ,deliveryman.getUser().getEmail(), "Nuevo pedido asignado");
+        emailSender.enviarCorreo("Hola, "+ deliveryman.getUser().getUsername()+" tiene un nuevo pedido asignado del comercio \n\n"
+        + "NOMBRE DEL COMERCIO",deliveryman.getUser().getEmail(), "Nuevo pedido asignado");
         
         return order;
     }

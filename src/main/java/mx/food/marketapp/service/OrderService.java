@@ -216,7 +216,8 @@ public class OrderService {
         }
         //pal cliente
         UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su compra ha sido realizada.", user.getEmail(), "Compra realizada");
+        emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". \n Su compra ha sido realizada con éxito, espere y se le asignará un repartidor."
+        , user.getEmail(), "Compra realizada");
         //pal vendedor
         System.out.println("NOMBRE DEL VENDEDOR" + " tiene un nuevo pedido asignado por el cliente " 
         + user.getUsername() + ", y compró: \n\n" + ProductosTotales + ". \n\n Fue asignado al repartidor: " + orderModel.getCustomerId().getFirstname()
@@ -265,7 +266,7 @@ public class OrderService {
         // user.getEmail();
         // ==================================================
         UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Cliente " +user.getUsername()+ "su pedido ha sido cancelado, una disculpa.", user.getEmail(), "Pedido cancelado");
+        emailSender.enviarCorreo("Hola, " +user.getUsername()+ ". Su pedido ha sido cancelado, una disculpa.", user.getEmail(), "Pedido cancelado");
    
 
         return orderModel;

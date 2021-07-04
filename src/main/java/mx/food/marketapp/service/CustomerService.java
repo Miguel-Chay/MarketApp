@@ -78,11 +78,10 @@ public class CustomerService {
         // ==================================================
         //                     CORREO
         // ==================================================
-        //UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
+                
+        emailSender.enviarCorreo("Bienvenid@ a MarketApp, "+newuser.getUsername()+".", newuser.getEmail() ,"Bienvenido nuevo comprador");
         
-        //emailSender.enviarCorreo("Bienvenid@ a MarketApp "+newuser.getUsername(), newuser.getEmail() ,"Bienvenido cliente");
-        
-        System.out.println("CORREO... \n Bienvenid@ a MarketApp "+newuser.getUsername()+" "+ newuser.getEmail() +"Bienvenido cliente");
+        //System.out.println("CORREO... \n Bienvenid@ a MarketApp "+newuser.getUsername()+" "+ newuser.getEmail() +"Bienvenido cliente");
         return newCustomer;
         
     } 

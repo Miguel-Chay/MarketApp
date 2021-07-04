@@ -75,8 +75,8 @@ public class SalesmanService {
         // ==================================================
         //                     CORREO
         // ==================================================
-        //UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Bienvenid@ a MarketApp", newuser.getEmail(), "Bienvenido vendedor");
+        emailSender.enviarCorreo("Bienvenid@ a MarketApp, "+ newuser.getUsername() +". \n Que tenga la mejor experiencia." 
+        ,newuser.getEmail(), "Bienvenido vendedor");
         
         return newSalesman;
         
