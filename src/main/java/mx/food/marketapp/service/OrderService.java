@@ -47,6 +47,7 @@ public class OrderService {
     private UserRepository userRepository;
     @Autowired
     private EmailSender emailSender;
+    private String ProductosTotales = "";
 
     @Transactional // Crear una transaccion
     public OrderModel crear(OrderRequest request) {
@@ -188,7 +189,7 @@ public class OrderService {
             throw new BadRequestException("Esta orden no puede ser comprada");
         List<OrderDetailModel> oD = new LinkedList<>();
         oD = orderDetailRepository.findByOrderId(id);
-        
+        ProductosTotales = "";
         oD.stream().forEach((p)-> {
 
             int stock=p.getProduct().getStock()-p.getAmount();
@@ -201,7 +202,7 @@ public class OrderService {
                 throw new BadRequestException("El producto "+p.getProduct().getName()+", que se encuentra en su carrito ya ha sido comprado");
             p.setFinished(true);
             orderDetailRepository.save(p);
-  
+            ProductosTotales +="\n" + p;
 
         });
 
@@ -213,17 +214,17 @@ public class OrderService {
         } catch (IllegalArgumentException e) {                   
             throw new BadRequestException("Hubo un error al realizar la compra");
         }
-
-        // ==================================================
-        //                     CORREO
-        //      HAS REALIZADO UNA COMPRA
-        // UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
-        // user.getEmail();
-        
-        // ==================================================
+        //pal cliente
         UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
         emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su compra ha sido realizada.", user.getEmail(), "Compra realizada");
-   
+        //pal vendedor
+        System.out.println("NOMBRE DEL VENDEDOR" + " tiene un nuevo pedido asignado por el cliente " 
+        + user.getUsername() + ", y compró: \n\n" + ProductosTotales + ". \n\n Fue asignado al repartidor: " + orderModel.getCustomerId().getFirstname()
+        + orderModel.getCustomerId().getLastname());
+        //emailSender.enviarCorreo("Vendedor, " + "NOMBRE DEL VENDEDOR" + " tiene un nuevo pedido asignado por el cliente " 
+        //+ user.getUsername() + ", y compró: \n\n" + ProductosTotales + ". \n\n Fue asignado al repartidor: " + orderModel.getCustomerId().getFirstname()
+        //+ orderModel.getCustomerId().getLastname()
+        //, "CORREO DEL VENDEDOR", "Pedido asignado" );
         return orderRepository.save(orderModel);
     }
 
