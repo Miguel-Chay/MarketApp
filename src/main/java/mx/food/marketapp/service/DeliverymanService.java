@@ -91,12 +91,14 @@ public class DeliverymanService {
         // ==================================================
         //                     CORREO
         // ==================================================
-        DeliverymanModel name= new DeliverymanModel();
-        name = userRepository.findById();
+        //DeliverymanModel name= new DeliverymanModel();
+        //name = userRepository.findById();
         //preguntar como obtener el nombre
-        UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido repartidor");
+        //UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
         
+        emailSender.enviarCorreo("Bienvenid@ a MarketApp \n"+newuser.getUsername(), newuser.getEmail(), "Bienvenido repartidor");
+        
+        System.out.println("COREOOO.... \n"+"Bienvenid@ a MarketApp"+newuser.getUsername() + " " +newuser.getEmail()+ "Bienvenido repartidor");
         return newDeliveryman;
         
     } 
@@ -177,15 +179,14 @@ public class DeliverymanService {
         order.setDerliverymanId(deliveryman);
 
         orderRepository.save(order);
-
-
-        // ==================================================
-        //                     CORREO (su pedido esta en camino)
-        // UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
-        // user.getEmail();
-        // ==================================================
+        
+        //correo pal usuario
         UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
         emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su pedido está en camino", user.getEmail(), "Pedido en camino");
+        //correo pal repartidor 
+        emailSender.enviarCorreo("Repartidor, "+ deliveryman.getUser().getUsername()+" tiene un nuevo pedido asignado del comercio \n\n"
+        ,deliveryman.getUser().getEmail(), "Nuevo pedido asignado");
+        
         return order;
     }
 

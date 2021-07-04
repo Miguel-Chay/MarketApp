@@ -62,8 +62,9 @@ public class CommerceService {
     //                     CORREO
     // salesman.getUser().getEmail();
     // ==================================================
-    emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido vendedor");
-        
+    emailSender.enviarCorreo("Bienvenid@ a MarketApp", salesman.getUser().getEmail(), "Bienvenido comerciante");
+  
+    System.out.println("CORREO \n "+"Bienvenid@ a MarketApp" + " - "+salesman.getUser().getEmail()+ "Bienvenido comerciante");
 
     return commerce;
   }
@@ -90,9 +91,12 @@ public class CommerceService {
     commerce = commerceRepository.save(commerce);
 
     // ==================================================
-    //                     CORREO
+    //                     CORREO 
     // ==================================================
-    emailSender.enviarCorreo("Bienvenid@ a MarketApp", user.getUsername(), "Bienvenido vendedor");
+    emailSender.enviarCorreo("Sus datos se ha actualizado de manera correcta :) \n Nuevos datos: \n\n Nombre:"+ 
+    commerce.getCommercialName()+ "\n RFC:" +commerce.getRfc()+"\n Descripción: " +commerce.getDescription() + "\n Ciudad:"+
+    commerce.getCity()+ "\n Dirección: "+commerce.getAddress() + "\n Teléfono: "+ commerce.getPhone(), salesman.getUser().getEmail(), 
+    "Actualización exitosa");
     
 
     return commerce;
