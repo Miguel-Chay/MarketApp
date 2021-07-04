@@ -173,7 +173,7 @@ public class DeliverymanService {
         
         //correo pal usuario
         UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Hola, "+user.getUsername()+ " su pedido está en camino", user.getEmail(), "Pedido en camino");
+        emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". Su pedido está en camino", user.getEmail(), "Pedido en camino");
         //correo pal repartidor 
         emailSender.enviarCorreo("Hola, "+ deliveryman.getUser().getUsername()+" tiene un nuevo pedido asignado del comercio \n\n"
         + "NOMBRE DEL COMERCIO",deliveryman.getUser().getEmail(), "Nuevo pedido asignado");
@@ -198,7 +198,7 @@ public class DeliverymanService {
         // user.getEmail();
         // ==================================================
         UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Cliente "+user.getUsername()+ "su pedido ha sido entregado.", user.getEmail(), "Pedido entregado");
+        emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". Su pedido ha sido entregado, que lo disfrute.", user.getEmail(), "Pedido entregado");
        
         return order;
     }
