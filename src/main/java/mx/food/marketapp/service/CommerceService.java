@@ -62,9 +62,9 @@ public class CommerceService {
     //                     CORREO
     // salesman.getUser().getEmail();
     // ==================================================
-    emailSender.enviarCorreo("Bienvenid@ a MarketApp", salesman.getUser().getEmail(), "Bienvenido comerciante");
+    emailSender.enviarCorreo("Bienvenid@ a MarketApp, " + salesman.getUser().getUsername() , salesman.getUser().getEmail(), "Bienvenido nuevo comercio");
   
-    System.out.println("CORREO \n "+"Bienvenid@ a MarketApp" + " - "+salesman.getUser().getEmail()+ "Bienvenido comerciante");
+    //System.out.println("CORREO \n "+"Bienvenid@ a MarketApp" + " - "+salesman.getUser().getEmail()+ "Bienvenido comerciante");
 
     return commerce;
   }

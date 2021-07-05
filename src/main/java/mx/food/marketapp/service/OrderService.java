@@ -47,7 +47,7 @@ public class OrderService {
     private UserRepository userRepository;
     @Autowired
     private EmailSender emailSender;
-    private String ProductosTotales = "";
+    private String ProductosTotales,Comercio,auxComercio;
 
     @Transactional // Crear una transaccion
     public OrderModel crear(OrderRequest request) {
@@ -68,8 +68,8 @@ public class OrderService {
             throw new BadRequestException("Valor invalido para status" + ": " + request.getStatus());
         }
         
-        order.setOrderDate(request.getOrderDate());
-        order.setDeliveredDate(request.getDeliveredDate());
+        // order.setOrderDate(request.getOrderDate());
+        // order.setDeliveredDate(request.getDeliveredDate());
 
         try {          
             order.setPaymentType(PaymentModel.valueOf(request.getPayment()));
@@ -106,8 +106,8 @@ public class OrderService {
             throw new BadRequestException("Valor invalido para status" + ": " + request.getStatus());
         }
         
-        order.setOrderDate(request.getOrderDate());
-        order.setDeliveredDate(request.getDeliveredDate());
+        order.setOrderDate(order.getOrderDate());
+        order.setDeliveredDate(order.getDeliveredDate());
 
         try {          
             order.setPaymentType(PaymentModel.valueOf(request.getPayment()));
@@ -159,14 +159,13 @@ public class OrderService {
             System.out.println(p.getProduct().getName()+" : "+p.getProduct().getPrice()+" * "+p.getAmount()+" = "+p.getSubtotal());
             total+=p.getSubtotal();
         });
-        return total;
+        return Math.round(total*100.0)/100.0 ;
     }
 
     @Transactional()
     public OrderModel actualizarTotal(Integer id){
         OrderModel orderModel = this.getById(id);
         orderModel.setTotal(this.calculateTotal(orderModel.getId()));
-        
         return orderRepository.save(orderModel);
     }
 
@@ -190,6 +189,8 @@ public class OrderService {
         List<OrderDetailModel> oD = new LinkedList<>();
         oD = orderDetailRepository.findByOrderId(id);
         ProductosTotales = "";
+        UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
+        auxComercio = "";
         oD.stream().forEach((p)-> {
 
             int stock=p.getProduct().getStock()-p.getAmount();
@@ -202,7 +203,16 @@ public class OrderService {
                 throw new BadRequestException("El producto "+p.getProduct().getName()+", que se encuentra en su carrito ya ha sido comprado");
             p.setFinished(true);
             orderDetailRepository.save(p);
-            ProductosTotales +="\n" + p;
+            ProductosTotales +="\n" + p.getProduct().getName() + ", cantidad: " + p.getAmount();
+            // Par vendedor
+            // if (auxComercio != p.getCommerce().getCommercialName() ) {                
+            //     emailSender.enviarCorreo("Hola, " +p.getCommerce().getSalesman().getFirstname() + " tienes un nuevo pedido asignado por el cliente " 
+            //     + user.getUsername() + ". ", p.getCommerce().getSalesman().getUser().getEmail(), "Nuevo pedido asignado" );
+            //     auxComercio = p.getCommerce().getCommercialName();
+            // }           
+
+            // System.out.println("Hola "+p.getCommerce().getSalesman().getFirstname() + " tienes un nuevo pedido asignado por el cliente " 
+            // + user.getUsername() + ", y compró: \n\n" + p.getProduct().getName()+ " con el monto de "+p.getAmount() + ". " );
 
         });
 
@@ -214,18 +224,11 @@ public class OrderService {
         } catch (IllegalArgumentException e) {                   
             throw new BadRequestException("Hubo un error al realizar la compra");
         }
-        //pal cliente
-        UserModel user = userRepository.findById(orderModel.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ orderModel.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". \n Su compra ha sido realizada con éxito, espere y se le asignará un repartidor."
-        , user.getEmail(), "Compra realizada");
-        //pal vendedor
-        System.out.println("NOMBRE DEL VENDEDOR" + " tiene un nuevo pedido asignado por el cliente " 
-        + user.getUsername() + ", y compró: \n\n" + ProductosTotales + ". \n\n Fue asignado al repartidor: " + orderModel.getCustomerId().getFirstname()
-        + orderModel.getCustomerId().getLastname());
-        //emailSender.enviarCorreo("Vendedor, " + "NOMBRE DEL VENDEDOR" + " tiene un nuevo pedido asignado por el cliente " 
-        //+ user.getUsername() + ", y compró: \n\n" + ProductosTotales + ". \n\n Fue asignado al repartidor: " + orderModel.getCustomerId().getFirstname()
-        //+ orderModel.getCustomerId().getLastname()
-        //, "CORREO DEL VENDEDOR", "Pedido asignado" );
+        // //pal cliente
+        // emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". \n Los productos seleccionados para comprar son: "+ ProductosTotales +
+        // " \n Total de la compra: "+ orderModel.getTotal() +" \n\n Se ha realizada con éxito, espere y se le asignará un repartidor."
+        // , user.getEmail(), "Compra realizada");
+
         return orderRepository.save(orderModel);
     }
 

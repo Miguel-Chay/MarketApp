@@ -11,10 +11,10 @@ public class OrderRequest {
     private Integer customerId;
     // @NotNull
     private String status;
-    @NotNull
-    private Date orderDate;
-    @NotNull
-    private Date deliveredDate;    
+    // @NotNull
+    // private Date orderDate;
+    // @NotNull
+    // private Date deliveredDate;    
     @NotNull
     private String payment;
     public Integer getDeliverymanId() {
@@ -35,18 +35,18 @@ public class OrderRequest {
     public void setStatus(String status) {
         this.status = status;
     }
-    public Date getOrderDate() {
-        return orderDate;
-    }
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-    public Date getDeliveredDate() {
-        return deliveredDate;
-    }
-    public void setDeliveredDate(Date deliveredDate) {
-        this.deliveredDate = deliveredDate;
-    }
+    // public Date getOrderDate() {
+    //     return orderDate;
+    // }
+    // public void setOrderDate(Date orderDate) {
+    //     this.orderDate = orderDate;
+    // }
+    // public Date getDeliveredDate() {
+    //     return deliveredDate;
+    // }
+    // public void setDeliveredDate(Date deliveredDate) {
+    //     this.deliveredDate = deliveredDate;
+    // }
     public String getPayment() {
         return payment;
     }

@@ -170,13 +170,13 @@ public class DeliverymanService {
         order.setDerliverymanId(deliveryman);
 
         orderRepository.save(order);
-        
-        //correo pal usuario
+        //correo pal cliente
         UserModel user = userRepository.findById(order.getCustomerId().getUser_id()).orElseThrow(()-> new NotFoundException("No existe el usuario con id:"+ order.getCustomerId().getUser_id()));
-        emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". Su pedido está en camino", user.getEmail(), "Pedido en camino");
+        emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". Su pedido está en camino, con el repartidor " + deliveryman.getFirstname() + " " +deliveryman.getLastname()
+        , user.getEmail(), "Pedido en camino");
         //correo pal repartidor 
-        emailSender.enviarCorreo("Hola, "+ deliveryman.getUser().getUsername()+" tiene un nuevo pedido asignado del comercio \n\n"
-        + "NOMBRE DEL COMERCIO",deliveryman.getUser().getEmail(), "Nuevo pedido asignado");
+        emailSender.enviarCorreo("Hola, "+ deliveryman.getUser().getUsername()+" has seleccionado un pedido para entregar a: "
+        + order.getCustomerId().getFirstname(),deliveryman.getUser().getEmail(), "Seleccionaste un nuevo pedido");
         
         return order;
     }

@@ -45,7 +45,8 @@ public class OrderDetailService {
         order = orderRepository.findById(request.getOrderId()).orElseThrow(()-> new NotFoundException("No existe una orden con id: "+request.getOrderId()));
         product = productRepository.findById(request.getProductId()).orElseThrow(()-> new NotFoundException("No existe un producto con id: "+request.getProductId()));
         
-
+        if (product.getStock()<request.getAmount())
+            throw new BadRequestException("No hay cantidad disponible en stock para el producto "+product.getName());
 
         odKey.setOrderId(order);
         odKey.setProductId(product);

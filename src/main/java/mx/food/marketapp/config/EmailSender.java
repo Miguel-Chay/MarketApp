@@ -23,7 +23,7 @@ public class EmailSender {
         try{
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             System.out.println("Correo enviando....");
-            mailMessage.setFrom("ejemplo-karina@gmail.com");
+            mailMessage.setFrom("MarketApp@service.com");
             mailMessage.setTo(email);
             mailMessage.setSubject(subject);
             mailMessage.setText(texto);
