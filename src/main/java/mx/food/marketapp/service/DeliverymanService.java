@@ -3,8 +3,6 @@ package mx.food.marketapp.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.rabbitmq.client.AMQP.Basic.Deliver;
-
 import java.util.Date;
 import java.util.LinkedList;
 

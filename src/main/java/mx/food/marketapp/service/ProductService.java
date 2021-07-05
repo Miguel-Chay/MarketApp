@@ -79,11 +79,10 @@ public class ProductService {
     }
 
     @Transactional()
-    public void delete(Integer id) {
-        try {
-            productRepository.deleteById(id);                        
-        } catch (Exception e) {}
-        
+    public void delete(Integer id) {        
+        ProductModel product=getById(id);
+        product.setStock(0);
+        productRepository.save(product);        
     }
 
  

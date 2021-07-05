@@ -1,7 +1,5 @@
 package mx.food.marketapp.model.request;
 
-import java.sql.Date;
-
 import javax.validation.constraints.NotNull;
 
 public class OrderRequest {

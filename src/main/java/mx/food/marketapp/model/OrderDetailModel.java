@@ -12,8 +12,8 @@ public class OrderDetailModel {
     @JsonBackReference
     private OrderDetailKeyModel id; 
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="order_id", insertable=false, updatable=false)
+    @ManyToOne(optional=false,cascade = CascadeType.REMOVE)
+    @JoinColumn(name="order_id", insertable=false, updatable=false)    
     @JsonBackReference
     OrderModel order; 
 

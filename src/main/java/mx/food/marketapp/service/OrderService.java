@@ -47,7 +47,7 @@ public class OrderService {
     private UserRepository userRepository;
     @Autowired
     private EmailSender emailSender;
-    private String ProductosTotales,Comercio,auxComercio;
+    private String ProductosTotales,auxComercio;
 
     @Transactional // Crear una transaccion
     public OrderModel crear(OrderRequest request) {
@@ -144,6 +144,10 @@ public class OrderService {
 
     @Transactional()
     public void delete(Integer id) {
+        OrderModel order = getById(id);
+        if (order.getStatus()!=OrderStatusModel.valueOf("ESPERA"))
+            throw new BadRequestException("No se puede eliminar esta orden debido a que su estado es: " + order.getStatus());
+
         try {
             orderRepository.deleteById(id);                        
         } catch (Exception e) {}
@@ -206,7 +210,7 @@ public class OrderService {
             ProductosTotales +="\n" + p.getProduct().getName() + ", cantidad: " + p.getAmount();
             // Par vendedor
             if (auxComercio != p.getCommerce().getCommercialName() ) {                
-                emailSender.enviarCorreo("Hola, " +p.getCommerce().getSalesman().getFirstname() + " tienes un nuevo pedido asignado por el cliente " 
+                emailSender.enviarCorreo("Hola, " +p.getCommerce().getSalesman().getFirstname() + " tienes un nuevo pedido solicitado por el cliente " 
                 + user.getUsername() + ". ", p.getCommerce().getSalesman().getUser().getEmail(), "Nuevo pedido asignado" );
                 auxComercio = p.getCommerce().getCommercialName();
             }    

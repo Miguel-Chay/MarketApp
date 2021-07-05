@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+// import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,12 +63,17 @@ public class CommerceRest {
     return ResponseEntity.status(HttpStatus.OK).body(commerce);
   }
 
-  @DeleteMapping("/commerces/{id}")
-  public ResponseEntity<Void> deleteCommerce(@PathVariable Integer id) {
-    commerceService.delete(id);
-    return ResponseEntity.noContent().build();
+  @PutMapping("/commerces/{id}/empty")
+  public ResponseEntity<List<ProductModel>> emptyCommerce(@PathVariable Integer id) {
+    List<ProductModel> productosEmpty=commerceService.emptyInventory(id);
+    return  ResponseEntity.status(HttpStatus.CREATED).body(productosEmpty);
   }
 
+  // @DeleteMapping("/commerces/{id}")
+  // public ResponseEntity<Void> deleteCommerce(@PathVariable Integer id) {
+  //   commerceService.delete(id);
+  //   return ResponseEntity.noContent().build();
+  // }
   // ver los pedidos de un negocio 
   @GetMapping("/commerces/{id}/orders")
   public ResponseEntity<List<OrderDetailModel>> getOrdersByCommerce(@PathVariable Integer id) {

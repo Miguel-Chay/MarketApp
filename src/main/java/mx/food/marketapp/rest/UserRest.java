@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
+// import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,25 +42,13 @@ public class UserRest {
         UserModel u = userService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(u);
     }
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        userService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // @GetMapping("/quienSoy")
-    // public ResponseEntity<User> getLoggedUser(){
-    //     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    //     return ResponseEntity.ok(user); 
+    // @DeleteMapping("/users/{id}")
+    // public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
+    //     userService.delete(id);
+    //     return ResponseEntity.noContent().build();
     // }
 
-    // @PostMapping("/register")
-    // public ResponseEntity<User> registrarUser(@RequestBody UserRequest request) {
-    //     User u = userService.crear(request);
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(u);
-    // }
-
-    
+ 
     
 
 }

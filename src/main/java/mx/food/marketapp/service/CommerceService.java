@@ -144,7 +144,7 @@ public class CommerceService {
   }
 
   public List<OrderDetailModel> getOrdersSoldByCommerce(Integer id) {
-    CommerceModel commerce = commerceRepository.findById(id).orElseThrow(()-> new NotFoundException());;
+    CommerceModel commerce = commerceRepository.findById(id).orElseThrow(()-> new NotFoundException());
     List<OrderDetailModel> orderDetail = new LinkedList<>();
     // List<OrderDetailModel> orderDetailList = orderDetailRepository.findAll();
 
@@ -154,5 +154,23 @@ public class CommerceService {
     orderDetailRepository.findByCommerceAndFinished(commerce, true).forEach(orderDetail::add);
     return orderDetail;
   }
+
+
+  public List<ProductModel> emptyInventory(Integer id){
+    CommerceModel commerce = commerceRepository.findById(id).orElseThrow(()-> new NotFoundException("no se econtro el comercio"));
+    List<ProductModel> products = new LinkedList<>();
+
+    products = productRepository.findByCommerce(commerce);
+    products.stream().forEach((p)-> {
+      p.setStock(0);
+      productRepository.save(p);
+    });
+
+    return products;
+  }
+
+
+
+
 
 }
