@@ -205,15 +205,11 @@ public class OrderService {
             orderDetailRepository.save(p);
             ProductosTotales +="\n" + p.getProduct().getName() + ", cantidad: " + p.getAmount();
             // Par vendedor
-            // if (auxComercio != p.getCommerce().getCommercialName() ) {                
-            //     emailSender.enviarCorreo("Hola, " +p.getCommerce().getSalesman().getFirstname() + " tienes un nuevo pedido asignado por el cliente " 
-            //     + user.getUsername() + ". ", p.getCommerce().getSalesman().getUser().getEmail(), "Nuevo pedido asignado" );
-            //     auxComercio = p.getCommerce().getCommercialName();
-            // }           
-
-            // System.out.println("Hola "+p.getCommerce().getSalesman().getFirstname() + " tienes un nuevo pedido asignado por el cliente " 
-            // + user.getUsername() + ", y compró: \n\n" + p.getProduct().getName()+ " con el monto de "+p.getAmount() + ". " );
-
+            if (auxComercio != p.getCommerce().getCommercialName() ) {                
+                emailSender.enviarCorreo("Hola, " +p.getCommerce().getSalesman().getFirstname() + " tienes un nuevo pedido asignado por el cliente " 
+                + user.getUsername() + ". ", p.getCommerce().getSalesman().getUser().getEmail(), "Nuevo pedido asignado" );
+                auxComercio = p.getCommerce().getCommercialName();
+            }    
         });
 
         Date now =new Date();
@@ -224,10 +220,10 @@ public class OrderService {
         } catch (IllegalArgumentException e) {                   
             throw new BadRequestException("Hubo un error al realizar la compra");
         }
-        // //pal cliente
-        // emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". \n Los productos seleccionados para comprar son: "+ ProductosTotales +
-        // " \n Total de la compra: "+ orderModel.getTotal() +" \n\n Se ha realizada con éxito, espere y se le asignará un repartidor."
-        // , user.getEmail(), "Compra realizada");
+        //pal cliente
+        emailSender.enviarCorreo("Hola, "+user.getUsername()+ ". \n Los productos seleccionados para comprar son: "+ ProductosTotales +
+        " \n Total de la compra: "+ orderModel.getTotal() +" \n\n Se ha realizada con éxito, espere y se le asignará un repartidor."
+        , user.getEmail(), "Compra realizada");
 
         return orderRepository.save(orderModel);
     }
